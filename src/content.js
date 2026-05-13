@@ -9,7 +9,11 @@ export const defaultContent = {
     heroBadgePrimary: 'Entre Ríos + 400 km',
     heroBadgeSecondary: 'Modelos a medida',
     heroImages: [
-      'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=80',
+      '/hero/hero-1.png',
+      '/hero/hero-2.png',
+      '/hero/hero-3.png',
+      '/hero/hero-4.png',
+      '/hero/hero-5.png',
     ],
     aboutEyebrow: 'Trayectoria y confianza',
     aboutTitle: 'Experiencia real para construir la casa que imaginás',
