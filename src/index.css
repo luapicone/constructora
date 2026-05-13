@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Playfair+Display:wght@600;700;800;900&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --color-cream: #f5f0e8;
+  --color-forest: #0d1f0e;
+  --color-midgreen: #2d5a30;
+  --color-accent: #7dc47f;
+  --color-gold: #c9a84c;
+  --color-mutedgreen: #5a6b5c;
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+:root {
+  color: var(--color-forest);
+  background: var(--color-cream);
+  font-family: var(--font-body);
+  scroll-behavior: smooth;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--color-cream); color: var(--color-forest); }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; }
+
+.fade-up, .fade-left, .fade-right, .scale-in {
+  opacity: 0;
+  will-change: transform, opacity;
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-up { transform: translateY(40px); }
+.fade-left { transform: translateX(-48px); }
+.fade-right { transform: translateX(48px); }
+.scale-in { transform: scale(0.95); }
+.fade-up.visible, .fade-left.visible, .fade-right.visible, .scale-in.visible {
+  opacity: 1;
+  transform: translate(0, 0) scale(1);
+}
+.hero-reveal { opacity: 0; animation: fadeUp 0.8s ease forwards; }
+.scroll-indicator { animation: pulseLine 2.8s ease-in-out infinite; }
+.service-card:hover .service-image,
+.portfolio-card:hover .portfolio-image,
+.blog-card:hover .blog-image { transform: scale(1.05); }
+.service-card:hover .service-copy,
+.portfolio-card:hover .portfolio-copy { opacity: 1; transform: translateY(0); }
+.nav-glass { background: rgba(13, 31, 14, 0.82); box-shadow: 0 20px 60px rgba(13, 31, 14, 0.18); }
+.leaf {
+  position: absolute;
+  border-radius: 999px 0 999px 999px;
+  background: radial-gradient(circle at 30% 30%, rgba(125,196,127,0.95), rgba(125,196,127,0.1));
+  opacity: 0.4;
+  animation: floatLeaf linear infinite;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulseLine {
+  0%,100% { opacity: .35; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(1.2); }
+}
+@keyframes floatLeaf {
+  from { transform: translate3d(0,0,0) rotate(0deg); }
+  50% { transform: translate3d(18px,-28px,0) rotate(12deg); }
+  to { transform: translate3d(-10px,-60px,0) rotate(-12deg); }
+}
