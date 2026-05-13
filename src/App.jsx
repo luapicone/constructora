@@ -27,7 +27,7 @@ function getHouseSlug() {
   return new URLSearchParams(window.location.search).get('house') || ''
 }
 
-function useReveal() {
+function useReveal(deps = []) {
   useEffect(() => {
     const nodes = document.querySelectorAll('[data-reveal]')
     const observer = new IntersectionObserver(
@@ -43,13 +43,14 @@ function useReveal() {
     )
 
     nodes.forEach((node) => {
+      node.classList.remove('visible')
       const delay = node.dataset.delay
       if (delay) node.style.transitionDelay = `${delay}s`
       observer.observe(node)
     })
 
     return () => observer.disconnect()
-  }, [])
+  }, deps)
 }
 
 function useSiteContent() {
@@ -138,7 +139,7 @@ function PublicSite({ content }) {
     { label: 'Proyectos', href: '#portfolio' },
   ]
 
-  useReveal()
+  useReveal([selectedHouseSlug])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
