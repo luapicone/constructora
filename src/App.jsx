@@ -181,7 +181,7 @@ function PublicSite({ content }) {
                 </span>
               </div>
 
-              <h1 className="hero-reveal font-heading text-[clamp(4.8rem,10vw,8.75rem)] leading-[0.9] font-black tracking-[-0.03em] text-white" style={{ animationDelay: '0.4s' }}>
+              <h1 className="hero-reveal font-heading text-[clamp(3.8rem,8.2vw,7rem)] leading-[0.9] font-black tracking-[-0.03em] text-white" style={{ animationDelay: '0.4s' }}>
                 Viviendas<br />Podesta
               </h1>
 
