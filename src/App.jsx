@@ -385,7 +385,7 @@ function PublicSite({ content }) {
         <section className="relative overflow-hidden bg-forest py-24 md:py-32">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_100%_60%_at_50%_0%,rgba(20,42,22,0.55),transparent)]" />
           <div className="relative z-10 mx-auto max-w-7xl px-5 md:px-8">
-            <div data-reveal className="fade-up mx-auto max-w-3xl text-center">
+            <div data-reveal className="fade-up mx-auto max-w-5xl text-center">
               <div className="flex items-center justify-center gap-3">
                 <span className="h-px w-14 bg-gold/40" />
                 <svg width="10" height="10" viewBox="0 0 10 10" className="flex-shrink-0">
@@ -393,9 +393,11 @@ function PublicSite({ content }) {
                 </svg>
                 <span className="h-px w-14 bg-gold/40" />
               </div>
-              <h2 className="mt-8 font-heading text-4xl leading-[1.1] text-white md:text-[3.6rem] md:leading-[1.1]">
-                Por qué elegir <span className="italic text-gold">Viviendas Podesta</span><br />
-                para construir tu próxima casa
+              <h2 className="mt-8 font-heading text-[clamp(2rem,5vw,3.6rem)] leading-[1.1] text-white md:leading-[1.1]">
+                <span className="block whitespace-nowrap">
+                  Por qué elegir <span className="italic text-gold">Viviendas Podesta</span>
+                </span>
+                <span className="block whitespace-nowrap">para construir tu próxima casa</span>
               </h2>
               <div className="mt-8 flex items-center justify-center gap-3">
                 <span className="h-px w-10 bg-gold/40" />
