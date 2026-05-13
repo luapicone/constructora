@@ -276,7 +276,6 @@ function PublicSite({ content }) {
               <div className="text-sm font-semibold uppercase tracking-[0.32em] text-midgreen">// {settings.aboutEyebrow}</div>
               <h2 className="mt-5 max-w-xl font-heading text-4xl leading-tight text-forest md:text-6xl">{settings.aboutTitle}</h2>
               <p className="mt-6 max-w-xl text-lg leading-8 text-mutedgreen">{settings.aboutBody}</p>
-              <a href="#portfolio" className="mt-8 inline-flex rounded-full bg-forest px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-midgreen">Ver proyectos →</a>
             </div>
           </div>
         </section>
