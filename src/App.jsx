@@ -4,7 +4,6 @@ const heroVideo = 'https://cdn.pixabay.com/video/2025/01/22/254016_large.mp4'
 
 const navLinks = [
   { label: 'Nosotros', href: '#about' },
-  { label: 'Servicios', href: '#services' },
   { label: 'Proyectos', href: '#portfolio' },
   { label: 'Blog', href: '#blog' },
 ]
@@ -14,27 +13,6 @@ const stats = [
   { value: 190, suffix: '+', label: 'Obras Entregadas' },
   { value: 400, suffix: ' km', label: 'Radio de Cobertura' },
   { value: 100, suffix: '%', label: 'Cumplimiento de Plazos' },
-]
-
-const services = [
-  {
-    tag: 'Modelos',
-    title: 'Viviendas Urbanas y Rurales',
-    image: 'https://images.unsplash.com/photo-1511818966892-d7d671e672a2?w=800&q=80',
-    copy: 'Desarrollamos casas urbanas, rurales, cabañas y lofts con soluciones adaptadas al uso, al entorno y al presupuesto de cada familia.',
-  },
-  {
-    tag: 'Personalización',
-    title: 'Diseños Propios o del Cliente',
-    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80',
-    copy: 'Podemos construir sobre modelos estándar, desarrollar propuestas a medida o materializar planos y diseños ya aportados por el cliente.',
-  },
-  {
-    tag: 'Garantía',
-    title: 'Obra con Plazos y Calidad',
-    image: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80',
-    copy: 'Priorizamos confiabilidad, seguridad, estética y confort con una relación precio-calidad sólida y cumplimiento impecable de los tiempos de obra.',
-  },
 ]
 
 const portfolio = [
@@ -273,35 +251,7 @@ export default function App() {
               <p className="mt-6 max-w-xl text-lg leading-8 text-mutedgreen">
                 En Viviendas Podesta trabajamos con una atención cercana y resolutiva, acompañando a cada cliente desde la idea inicial hasta la entrega final. Nuestra trayectoria respalda obras seguras, estéticas, confortables y ejecutadas con foco en la mejor relación precio-calidad.
               </p>
-              <a href="#services" className="mt-8 inline-flex rounded-full bg-forest px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-midgreen">Descubrir opciones →</a>
-            </div>
-          </div>
-        </section>
-
-        <section id="services" className="bg-white py-22 md:py-28">
-          <div className="mx-auto max-w-7xl px-5 md:px-8">
-            <div className="mb-12 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-              <div data-reveal className="fade-up">
-                <div className="text-sm font-semibold uppercase tracking-[0.32em] text-midgreen">// Qué construimos</div>
-                <h2 className="mt-4 font-heading text-4xl text-forest md:text-6xl">Modelos y servicios para cada tipo de vivienda</h2>
-              </div>
-              <a data-reveal data-delay="0.1" href="#portfolio" className="fade-up text-sm font-semibold text-midgreen transition hover:text-forest">Ver proyectos →</a>
-            </div>
-
-            <div className="grid gap-7 md:grid-cols-3">
-              {services.map((service, index) => (
-                <article key={service.title} data-reveal data-delay={String(index * 0.1)} className="service-card scale-in group relative overflow-hidden rounded-[1.75rem]">
-                  <div className="aspect-[3/4] overflow-hidden">
-                    <img src={service.image} alt={service.title} className="service-image h-full w-full object-cover transition duration-700" />
-                  </div>
-                  <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(13,31,14,0.92)_0%,rgba(13,31,14,0.08)_60%,transparent_100%)]" />
-                  <div className="absolute inset-x-0 bottom-0 p-6 text-white">
-                    <div className="mb-3 inline-flex rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.26em] backdrop-blur-sm">{service.tag}</div>
-                    <h3 className="font-heading text-3xl">{service.title}</h3>
-                    <p className="service-copy mt-3 max-w-xs translate-y-3 text-sm leading-7 text-white/75 opacity-0 transition duration-500">{service.copy}</p>
-                  </div>
-                </article>
-              ))}
+              <a href="#portfolio" className="mt-8 inline-flex rounded-full bg-forest px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-midgreen">Ver proyectos →</a>
             </div>
           </div>
         </section>
