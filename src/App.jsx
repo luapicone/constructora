@@ -11,78 +11,78 @@ const navLinks = [
 ]
 
 const stats = [
-  { value: 40, suffix: '+', label: 'Años Construyendo' },
+  { value: 40, suffix: '+', label: 'Años de Trayectoria' },
   { value: 190, suffix: '+', label: 'Obras Entregadas' },
-  { value: 1260, suffix: '+', label: 'Familias Acompañadas' },
-  { value: 14, prefix: 'USD ', suffix: ' M', label: 'Inversión Ejecutada' },
+  { value: 400, suffix: ' km', label: 'Radio de Cobertura' },
+  { value: 100, suffix: '%', label: 'Cumplimiento de Plazos' },
 ]
 
 const services = [
   {
-    tag: 'Diseño',
-    title: 'Proyectos a Medida',
+    tag: 'Modelos',
+    title: 'Viviendas Urbanas y Rurales',
     image: 'https://images.unsplash.com/photo-1511818966892-d7d671e672a2?w=800&q=80',
-    copy: 'Diseñamos casas funcionales, luminosas y pensadas para tu estilo de vida, desde la idea inicial hasta los planos ejecutivos.',
+    copy: 'Desarrollamos casas urbanas, rurales, cabañas y lofts con soluciones adaptadas al uso, al entorno y al presupuesto de cada familia.',
   },
   {
-    tag: 'Obra',
-    title: 'Construcción Integral',
+    tag: 'Personalización',
+    title: 'Diseños Propios o del Cliente',
     image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80',
-    copy: 'Coordinamos estructura, instalaciones, terminaciones y cronograma con un único equipo responsable de toda la obra.',
+    copy: 'Podemos construir sobre modelos estándar, desarrollar propuestas a medida o materializar planos y diseños ya aportados por el cliente.',
   },
   {
-    tag: 'Entrega',
-    title: 'Llave en Mano',
+    tag: 'Garantía',
+    title: 'Obra con Plazos y Calidad',
     image: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80',
-    copy: 'Entregamos viviendas listas para habitar con seguimiento técnico, control de calidad y documentación completa.',
+    copy: 'Priorizamos confiabilidad, seguridad, estética y confort con una relación precio-calidad sólida y cumplimiento impecable de los tiempos de obra.',
   },
 ]
 
 const portfolio = [
   {
-    title: 'Casa Patio Norte',
-    location: 'Nordelta, Buenos Aires',
+    title: 'Casa Familiar Podestá',
+    location: 'Paraná, Entre Ríos',
     image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80',
     className: 'md:row-span-2',
   },
   {
-    title: 'Residencia Horizonte',
-    location: 'Pilar, Buenos Aires',
+    title: 'Cabaña de Campo',
+    location: 'Victoria, Entre Ríos',
     image: 'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=900&q=80',
   },
   {
-    title: 'Casa Bosque Claro',
-    location: 'Canning, Buenos Aires',
+    title: 'Loft Contemporáneo',
+    location: 'Santa Fe Capital',
     image: 'https://images.unsplash.com/photo-1600566753052-d70c7b608027?w=900&q=80',
   },
 ]
 
 const blogPosts = [
   {
-    category: 'Planificación',
-    title: 'Qué definir antes de empezar a construir tu casa',
-    excerpt: 'Terreno, programa, presupuesto y tiempos: los cuatro pilares que ordenan una obra residencial desde el primer día.',
+    category: 'Experiencia',
+    title: 'Cómo una trayectoria sólida mejora cada etapa de obra',
+    excerpt: 'La experiencia permite anticipar problemas, optimizar decisiones y sostener calidad real desde el replanteo hasta la entrega.',
     date: '13 May 2026',
     image: 'https://images.unsplash.com/photo-1494526585095-c41746248156?w=900&q=80',
   },
   {
-    category: 'Materiales',
-    title: 'Cómo elegir materiales durables sin resignar diseño',
-    excerpt: 'Una guía práctica para combinar estética, mantenimiento y rendimiento en exteriores, interiores y cubiertas.',
+    category: 'Modelos',
+    title: 'Qué tipo de vivienda conviene: urbana, rural, cabaña o loft',
+    excerpt: 'Una mirada clara sobre cómo elegir el modelo adecuado según terreno, uso, inversión y estilo de vida.',
     date: '09 May 2026',
     image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=900&q=80',
   },
   {
-    category: 'Arquitectura',
-    title: 'Tendencias en casas contemporáneas para 2026',
-    excerpt: 'Espacios integrados, luz natural, eficiencia térmica y layouts flexibles dominan la nueva vivienda premium.',
+    category: 'Calidad',
+    title: 'Seguridad, estética y confort en una misma obra',
+    excerpt: 'Cuando el proyecto está bien resuelto, la casa no solo luce mejor: también se vive mejor y dura más.',
     date: '30 Apr 2026',
     image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=900&q=80',
   },
   {
-    category: 'Proceso',
-    title: 'Obra llave en mano: ventajas reales para una familia',
-    excerpt: 'Menos desvíos, un solo interlocutor y mayor previsibilidad financiera en cada etapa del proyecto.',
+    category: 'Cobertura',
+    title: 'Construimos en Entre Ríos y provincias vecinas hasta 400 km',
+    excerpt: 'Nuestra logística y experiencia regional permiten sostener calidad y cumplimiento en una amplia área de trabajo.',
     date: '21 Apr 2026',
     image: 'https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=900&q=80',
   },
@@ -90,19 +90,19 @@ const blogPosts = [
 
 const reasons = [
   {
-    icon: '🏡',
-    title: 'Calidad Constructiva',
-    copy: 'Trabajamos con procesos estandarizados, dirección técnica y controles en cada rubro para asegurar una obra sólida y precisa.',
-  },
-  {
-    icon: '📐',
-    title: 'Diseño con Propósito',
-    copy: 'Cada vivienda se proyecta para responder al terreno, la orientación solar, la vida cotidiana y el presupuesto real.',
+    icon: '🛠️',
+    title: 'Experiencia y Trayectoria',
+    copy: 'Décadas de trabajo sostenido nos permiten ejecutar obras con criterio técnico, previsión y resultados confiables.',
   },
   {
     icon: '🤝',
-    title: 'Acompañamiento Real',
-    copy: 'Mantenemos comunicación clara, seguimiento constante y decisiones transparentes desde el anteproyecto hasta la entrega.',
+    title: 'Atención Personalizada',
+    copy: 'Cada cliente recibe seguimiento cercano, soluciones a medida y acompañamiento real durante todo el proceso.',
+  },
+  {
+    icon: '⭐',
+    title: 'Precio y Calidad',
+    copy: 'Buscamos el mejor equilibrio entre inversión, terminaciones, confort y durabilidad para cada tipo de vivienda.',
   },
 ]
 
@@ -198,14 +198,14 @@ export default function App() {
     <div className="bg-cream text-forest">
       <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${scrolled ? 'nav-glass py-3' : 'bg-transparent py-5 backdrop-blur-md'}`}>
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 md:px-8">
-          <a href="#top" className="font-heading text-2xl text-white md:text-3xl">Acreage Homes</a>
+          <a href="#top" className="font-heading text-2xl text-white md:text-3xl">Viviendas Podesta</a>
           <nav className="hidden items-center gap-8 text-sm font-medium text-white/85 md:flex">
             {navLinks.map((link) => (
               <a key={link.label} href={link.href} className="transition hover:text-accent">{link.label}</a>
             ))}
           </nav>
           <div className="hidden md:block">
-            <a href="#cta" className="rounded-full bg-midgreen px-5 py-3 text-sm font-semibold text-white transition hover:bg-accent hover:text-forest">Solicitar proyecto</a>
+            <a href="#cta" className="rounded-full bg-midgreen px-5 py-3 text-sm font-semibold text-white transition hover:bg-accent hover:text-forest">Solicitar asesoramiento</a>
           </div>
           <button
             className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 text-white md:hidden"
@@ -221,7 +221,7 @@ export default function App() {
               {navLinks.map((link) => (
                 <a key={link.label} href={link.href} onClick={() => setMenuOpen(false)}>{link.label}</a>
               ))}
-              <a href="#cta" onClick={() => setMenuOpen(false)} className="mt-2 rounded-full bg-accent px-5 py-3 text-center font-semibold text-forest">Solicitar proyecto</a>
+              <a href="#cta" onClick={() => setMenuOpen(false)} className="mt-2 rounded-full bg-accent px-5 py-3 text-center font-semibold text-forest">Solicitar asesoramiento</a>
             </div>
           </div>
         )}
@@ -236,19 +236,19 @@ export default function App() {
           <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-5 pb-16 pt-28 md:px-8 md:pb-24 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl pb-10 lg:pb-0">
               <div className="hero-reveal mb-5 text-sm font-semibold uppercase tracking-[0.34em] text-accent" style={{ animationDelay: '0.2s' }}>
-                // Construcción residencial premium
+                // Viviendas que combinan seguridad, estética y confort
               </div>
               <h1 className="hero-reveal max-w-4xl font-heading text-[clamp(5rem,10vw,9rem)] leading-[0.88] font-black text-white" style={{ animationDelay: '0.4s' }}>
-                Casas pensadas para vivir mejor
+                Viviendas Podesta
               </h1>
             </div>
             <div className="max-w-xl lg:pb-6">
               <p className="hero-reveal text-lg leading-8 text-white/75 md:text-xl" style={{ animationDelay: '0.6s' }}>
-                Diseñamos y construimos viviendas contemporáneas con procesos claros, materiales durables y una ejecución cuidada de principio a fin.
+                Construimos casas con atención personalizada, impecable cumplimiento de obra y soluciones adaptadas a modelos urbanos, rurales, cabañas, lofts o diseños aportados por cada cliente.
               </p>
               <div className="hero-reveal mt-8 flex flex-wrap gap-4" style={{ animationDelay: '0.8s' }}>
-                <div className="rounded-full bg-gold px-5 py-3 text-sm font-bold text-forest shadow-lg shadow-gold/20">40+ años</div>
-                <div className="rounded-full border border-white/15 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur-md">190 obras</div>
+                <div className="rounded-full bg-gold px-5 py-3 text-sm font-bold text-forest shadow-lg shadow-gold/20">Entre Ríos + 400 km</div>
+                <div className="rounded-full border border-white/15 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur-md">Modelos a medida</div>
               </div>
             </div>
           </div>
@@ -269,12 +269,12 @@ export default function App() {
             </div>
 
             <div data-reveal data-delay="0.15" className="fade-right">
-              <div className="text-sm font-semibold uppercase tracking-[0.32em] text-midgreen">// Sobre nosotros</div>
-              <h2 className="mt-5 max-w-xl font-heading text-4xl leading-tight text-forest md:text-6xl">Construimos hogares con diseño, técnica y confianza</h2>
+              <div className="text-sm font-semibold uppercase tracking-[0.32em] text-midgreen">// Trayectoria y confianza</div>
+              <h2 className="mt-5 max-w-xl font-heading text-4xl leading-tight text-forest md:text-6xl">Experiencia real para construir la casa que imaginás</h2>
               <p className="mt-6 max-w-xl text-lg leading-8 text-mutedgreen">
-                Somos una constructora enfocada en casas unifamiliares y desarrollos residenciales de escala cuidada. Integramos arquitectura, dirección de obra y ejecución para transformar ideas en espacios reales, habitables y duraderos.
+                En Viviendas Podesta trabajamos con una atención cercana y resolutiva, acompañando a cada cliente desde la idea inicial hasta la entrega final. Nuestra trayectoria respalda obras seguras, estéticas, confortables y ejecutadas con foco en la mejor relación precio-calidad.
               </p>
-              <a href="#services" className="mt-8 inline-flex rounded-full bg-forest px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-midgreen">Conocer el proceso →</a>
+              <a href="#services" className="mt-8 inline-flex rounded-full bg-forest px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-midgreen">Descubrir opciones →</a>
             </div>
           </div>
         </section>
@@ -283,8 +283,8 @@ export default function App() {
           <div className="mx-auto max-w-7xl px-5 md:px-8">
             <div className="mb-12 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
               <div data-reveal className="fade-up">
-                <div className="text-sm font-semibold uppercase tracking-[0.32em] text-midgreen">// Qué hacemos</div>
-                <h2 className="mt-4 font-heading text-4xl text-forest md:text-6xl">Servicios para construir tu casa de punta a punta</h2>
+                <div className="text-sm font-semibold uppercase tracking-[0.32em] text-midgreen">// Qué construimos</div>
+                <h2 className="mt-4 font-heading text-4xl text-forest md:text-6xl">Modelos y servicios para cada tipo de vivienda</h2>
               </div>
               <a data-reveal data-delay="0.1" href="#portfolio" className="fade-up text-sm font-semibold text-midgreen transition hover:text-forest">Ver proyectos →</a>
             </div>
@@ -314,8 +314,8 @@ export default function App() {
           <div className="absolute inset-0 bg-[rgba(13,31,14,0.65)]" />
           <div className="relative z-10 flex h-full items-center justify-center px-5 text-center md:px-8">
             <div data-reveal className="fade-up max-w-4xl text-white">
-              <blockquote className="font-heading text-4xl italic leading-tight md:text-6xl">Una casa bien construida no solo se ve bien: mejora la vida todos los días.</blockquote>
-              <div className="mt-6 text-sm font-semibold uppercase tracking-[0.3em] text-accent">// Filosofía Acreage Homes</div>
+              <blockquote className="font-heading text-4xl italic leading-tight md:text-6xl">Cumplir tiempos de obra también es construir confianza.</blockquote>
+              <div className="mt-6 text-sm font-semibold uppercase tracking-[0.3em] text-accent">// Filosofía Viviendas Podesta</div>
             </div>
           </div>
         </section>
@@ -324,7 +324,7 @@ export default function App() {
           <div className="mx-auto max-w-7xl px-5 md:px-8">
             <div className="mb-12 grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
               <div data-reveal className="fade-up">
-                <div className="text-sm font-semibold uppercase tracking-[0.32em] text-midgreen">// Obras destacadas</div>
+                <div className="text-sm font-semibold uppercase tracking-[0.32em] text-midgreen">// Tipologías y obras</div>
                 <h2 className="mt-4 font-heading text-4xl text-forest md:text-6xl">Proyectos</h2>
               </div>
               <div data-reveal data-delay="0.1" className="fade-up font-heading text-5xl text-forest/15 md:text-7xl">//2026</div>
@@ -351,11 +351,11 @@ export default function App() {
               <div className="grid md:grid-cols-2">
                 <img src="https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=1000&q=80" alt="Evento de arquitectura" className="h-full min-h-[320px] w-full object-cover" />
                 <div className="bg-forest p-8 text-white md:p-12">
-                  <div className="text-sm font-semibold uppercase tracking-[0.3em] text-accent">// Evento</div>
-                  <div className="mt-5 inline-flex rounded-full border border-accent/25 bg-accent/10 px-4 py-2 text-sm font-semibold text-accent">Jun 2026</div>
-                  <h3 className="mt-6 max-w-xl font-heading text-4xl leading-tight md:text-5xl">Jornada de diseño residencial, materiales y construcción eficiente</h3>
-                  <p className="mt-5 max-w-lg text-lg leading-8 text-white/68">Showroom Palermo · 120 asistentes · Una experiencia para recorrer tendencias, sistemas constructivos y soluciones para viviendas contemporáneas.</p>
-                  <a href="#cta" className="mt-8 inline-flex rounded-full bg-midgreen px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-accent hover:text-forest">Reservar lugar →</a>
+                  <div className="text-sm font-semibold uppercase tracking-[0.3em] text-accent">// Área de trabajo</div>
+                  <div className="mt-5 inline-flex rounded-full border border-accent/25 bg-accent/10 px-4 py-2 text-sm font-semibold text-accent">Entre Ríos + provincias vecinas</div>
+                  <h3 className="mt-6 max-w-xl font-heading text-4xl leading-tight md:text-5xl">Construimos en un radio de hasta 400 km con el mismo estándar de calidad</h3>
+                  <p className="mt-5 max-w-lg text-lg leading-8 text-white/68">Operamos en Entre Ríos y zonas cercanas, llevando experiencia, organización de obra y atención personalizada a cada proyecto residencial.</p>
+                  <a href="#cta" className="mt-8 inline-flex rounded-full bg-midgreen px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-accent hover:text-forest">Consultar cobertura →</a>
                 </div>
               </div>
             </div>
@@ -396,7 +396,7 @@ export default function App() {
         <section className="bg-forest py-22 text-white md:py-28">
           <div className="mx-auto max-w-7xl px-5 text-center md:px-8">
             <div data-reveal className="fade-up mx-auto max-w-4xl">
-              <h2 className="font-heading text-4xl leading-tight md:text-6xl">Por qué elegir Acreage Homes para construir tu próxima casa</h2>
+              <h2 className="font-heading text-4xl leading-tight md:text-6xl">Por qué elegir Viviendas Podesta para construir tu próxima casa</h2>
             </div>
 
             <div className="mt-14 grid gap-6 md:grid-cols-3">
@@ -420,13 +420,13 @@ export default function App() {
 
           <div className="relative z-10 mx-auto max-w-4xl px-5 text-center md:px-8">
             <div data-reveal className="fade-up">
-              <h2 className="font-heading text-4xl leading-tight md:text-7xl">Empezá a construir tu <span className="italic text-accent">próximo hogar</span></h2>
+              <h2 className="font-heading text-4xl leading-tight md:text-7xl">Empezá tu <span className="italic text-accent">proyecto con nosotros</span></h2>
               <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/72">
-                Contanos tu idea, el terreno y el tipo de casa que imaginás. Te ayudamos a convertirlo en un proyecto concreto, claro y construible.
+                Si buscás una constructora confiable para una casa urbana, rural, cabaña, loft o un diseño propio, en Viviendas Podesta te acompañamos con atención personalizada y ejecución responsable.
               </p>
               <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
-                <a href="#top" className="rounded-full bg-accent px-7 py-4 text-sm font-semibold text-forest transition hover:bg-white">Solicitar proyecto</a>
-                <a href="#about" className="rounded-full border border-white/35 px-7 py-4 text-sm font-semibold text-white transition hover:border-accent hover:text-accent">Conocer más</a>
+                <a href="#top" className="rounded-full bg-accent px-7 py-4 text-sm font-semibold text-forest transition hover:bg-white">Solicitar asesoramiento</a>
+                <a href="#about" className="rounded-full border border-white/35 px-7 py-4 text-sm font-semibold text-white transition hover:border-accent hover:text-accent">Ver trayectoria</a>
               </div>
             </div>
           </div>
@@ -436,9 +436,9 @@ export default function App() {
       <footer className="border-t border-accent/30 bg-forest text-white">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 md:px-8 lg:grid-cols-[2fr_1fr_1fr_1fr]">
           <div>
-            <a href="#top" className="font-heading text-4xl">Acreage Homes</a>
+            <a href="#top" className="font-heading text-4xl">Viviendas Podesta</a>
             <p className="mt-4 max-w-md text-base leading-7 text-white/68">
-              Constructora de casas enfocada en diseño residencial, ejecución integral y entregas con calidad real.
+              Constructora de viviendas con trayectoria, atención personalizada y proyectos ejecutados con seguridad, estética, confort y excelente relación precio-calidad.
             </p>
             <div className="mt-6 flex gap-3 text-lg text-accent"><span>○</span><span>◐</span><span>◇</span></div>
           </div>
@@ -466,7 +466,7 @@ export default function App() {
           <div>
             <div className="text-sm font-semibold uppercase tracking-[0.3em] text-accent">Contacto</div>
             <div className="mt-5 space-y-3 text-white/70">
-              <p>hola@acreagehomes.com</p>
+              <p>hola@viviendaspodesta.com</p>
               <p>+54 11 5555 0186</p>
               <p>Av. del Libertador 2040, Buenos Aires</p>
             </div>
@@ -474,8 +474,8 @@ export default function App() {
         </div>
 
         <div className="mx-auto flex max-w-7xl flex-col gap-4 border-t border-white/10 px-5 py-6 text-sm text-white/55 md:flex-row md:items-center md:justify-between md:px-8">
-          <p>© 2026 Acreage Homes. All rights reserved.</p>
-          <div className="font-heading text-3xl text-white/8 md:text-5xl">Acreage Homes</div>
+          <p>© 2026 Viviendas Podesta. All rights reserved.</p>
+          <div className="font-heading text-3xl text-white/8 md:text-5xl">Viviendas Podesta</div>
         </div>
       </footer>
     </div>
