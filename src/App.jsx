@@ -104,7 +104,6 @@ function Counter({ value, prefix = '', suffix = '', label, start }) {
 
 function PublicSite({ content }) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
   const [statsVisible, setStatsVisible] = useState(false)
   const [heroIndex, setHeroIndex] = useState(0)
   const statsRef = useRef(null)
@@ -117,13 +116,6 @@ function PublicSite({ content }) {
   ]
 
   useReveal()
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24)
-    onScroll()
-    window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -151,7 +143,7 @@ function PublicSite({ content }) {
   return (
     <div className="bg-cream text-forest">
       <header className="fixed inset-x-0 top-0 z-50 pt-5 md:pt-7">
-        <div className={`mx-auto flex max-w-[1320px] items-center justify-between rounded-full border border-[#b89a67]/75 px-5 py-3 shadow-[0_18px_45px_rgba(0,0,0,0.18)] backdrop-blur-xl transition-all duration-500 md:px-8 ${scrolled ? 'bg-[#081521]/92' : 'bg-[#081521]/78'}`}>
+        <div className="mx-auto flex max-w-[1320px] items-center justify-between rounded-full border border-[#b89a67]/75 bg-[#081521]/88 px-5 py-3 shadow-[0_18px_45px_rgba(0,0,0,0.18)] backdrop-blur-xl md:px-8">
           <div className="flex items-center gap-4 md:gap-5">
             <a href="#top" className="flex items-center gap-3 text-white">
               <span className="text-lg text-[#c5a059]">❦</span>
