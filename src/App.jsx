@@ -382,42 +382,80 @@ function PublicSite({ content }) {
           </div>
         </section>
 
-        <section className="bg-[#f2eadf] py-24 md:py-32">
-          <div className="mx-auto max-w-7xl px-5 md:px-8">
-            <div data-reveal className="fade-up mx-auto max-w-4xl text-center">
-              <div className="mx-auto flex w-fit items-center gap-4 text-[#b89462]">
-                <span className="h-px w-12 bg-[#b89462]/70" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.3em]">Por qué elegirnos</span>
-                <span className="h-px w-12 bg-[#b89462]/70" />
+        <section className="relative overflow-hidden bg-forest py-24 md:py-32">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_100%_60%_at_50%_0%,rgba(20,42,22,0.55),transparent)]" />
+          <div className="relative z-10 mx-auto max-w-7xl px-5 md:px-8">
+            <div data-reveal className="fade-up mx-auto max-w-3xl text-center">
+              <div className="flex items-center justify-center gap-3">
+                <span className="h-px w-14 bg-gold/40" />
+                <svg width="10" height="10" viewBox="0 0 10 10" className="flex-shrink-0">
+                  <path d="M5 0 L10 5 L5 10 L0 5 Z" fill="#c9a84c" opacity="0.65" />
+                </svg>
+                <span className="h-px w-14 bg-gold/40" />
               </div>
-              <h2 className="mt-6 font-heading text-4xl leading-[1.08] text-forest md:text-[3.8rem]">{settings.reasonsTitle}</h2>
+              <h2 className="mt-8 font-heading text-4xl leading-[1.1] text-white md:text-[3.6rem] md:leading-[1.1]">
+                {(() => {
+                  const title = settings.reasonsTitle
+                  const brand = settings.brandName
+                  const idx = title.indexOf(brand)
+                  if (idx === -1) return title
+                  return (
+                    <>
+                      {title.slice(0, idx)}
+                      <span className="italic text-gold">{brand}</span>
+                      <br />
+                      {title.slice(idx + brand.length).trim()}
+                    </>
+                  )
+                })()}
+              </h2>
+              <div className="mt-8 flex items-center justify-center gap-3">
+                <span className="h-px w-10 bg-gold/40" />
+                <svg width="10" height="10" viewBox="0 0 10 10" className="flex-shrink-0">
+                  <path d="M5 0 L10 5 L5 10 L0 5 Z" fill="#c9a84c" opacity="0.65" />
+                </svg>
+                <span className="h-px w-10 bg-gold/40" />
+              </div>
             </div>
 
             <div className="mt-16 grid gap-6 lg:grid-cols-3">
-              {reasons.map((reason, index) => (
-                <article
-                  key={reason.id || reason.title}
-                  data-reveal
-                  data-delay={String(index * 0.1)}
-                  className="scale-in relative overflow-hidden rounded-[2.2rem] border border-[#2c3b2b]/10 bg-[#102116] p-8 text-left text-white shadow-[0_30px_70px_rgba(13,31,14,0.16)] transition hover:-translate-y-2 hover:shadow-[0_36px_80px_rgba(13,31,14,0.2)] md:p-10"
-                >
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(184,148,98,0.14),transparent_35%)]" />
-                  <div className="relative z-10">
-                    <div className="flex items-start justify-between gap-5">
-                      <div className="flex h-14 w-14 items-center justify-center rounded-full border border-[#b89462]/55 bg-white/5 text-2xl shadow-sm">
-                        {reason.icon}
-                      </div>
-                      <div className="font-heading text-5xl leading-none text-[#b89462]/22">0{index + 1}</div>
+              {reasons.map((reason, index) => {
+                const svgIcons = [
+                  <svg key="wrench" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8">
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+                  </svg>,
+                  <svg key="handshake" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8">
+                    <path d="m11 17 2 2a1 1 0 1 0 3-3" />
+                    <path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4" />
+                    <path d="m21 3 1 11h-2" />
+                    <path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3" />
+                    <path d="M3 4h8" />
+                  </svg>,
+                  <svg key="award" viewBox="0 0 24 24" fill="none" stroke="#c9a84c" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8">
+                    <path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526" />
+                    <circle cx="12" cy="8" r="6" />
+                  </svg>,
+                ]
+                return (
+                  <article
+                    key={reason.id || reason.title}
+                    data-reveal
+                    data-delay={String(index * 0.1)}
+                    className="scale-in relative overflow-hidden rounded-[1.8rem] border border-gold/30 bg-[#0f1e10] p-8 text-center text-white shadow-[0_20px_50px_rgba(0,0,0,0.35)] transition hover:-translate-y-2 hover:border-gold/55 hover:shadow-[0_28px_65px_rgba(0,0,0,0.45)] md:p-10"
+                  >
+                    <div className="mx-auto flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-full border border-gold/50 bg-forest">
+                      {svgIcons[index] ?? <span className="text-xl text-gold">{reason.icon}</span>}
                     </div>
-                    <h3 className="mt-10 font-heading text-[2rem] leading-tight text-[#f7f2ea]">{reason.title}</h3>
-                    <p className="mt-5 text-base leading-8 text-white/70">{reason.copy}</p>
-                    <div className="mt-10 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.26em] text-[#b89462]">
-                      <span className="h-px w-10 bg-[#b89462]/70" />
-                      Viviendas Podesta
+                    <h3 className="mt-7 font-heading text-[1.6rem] leading-tight text-[#f7f2ea]">{reason.title}</h3>
+                    <p className="mx-auto mt-4 max-w-xs text-[0.9rem] leading-[1.75] text-white/60">{reason.copy}</p>
+                    <div className="absolute bottom-5 right-5">
+                      <svg width="9" height="9" viewBox="0 0 10 10">
+                        <path d="M5 0 L10 5 L5 10 L0 5 Z" fill="#c9a84c" opacity="0.45" />
+                      </svg>
                     </div>
-                  </div>
-                </article>
-              ))}
+                  </article>
+                )
+              })}
             </div>
           </div>
         </section>
