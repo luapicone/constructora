@@ -5,7 +5,6 @@ const heroVideo = 'https://cdn.pixabay.com/video/2025/01/22/254016_large.mp4'
 const navLinks = [
   { label: 'Nosotros', href: '#about' },
   { label: 'Proyectos', href: '#portfolio' },
-  { label: 'Blog', href: '#blog' },
 ]
 
 const stats = [
@@ -31,37 +30,6 @@ const portfolio = [
     title: 'Loft Contemporáneo',
     location: 'Santa Fe Capital',
     image: 'https://images.unsplash.com/photo-1600566753052-d70c7b608027?w=900&q=80',
-  },
-]
-
-const blogPosts = [
-  {
-    category: 'Experiencia',
-    title: 'Cómo una trayectoria sólida mejora cada etapa de obra',
-    excerpt: 'La experiencia permite anticipar problemas, optimizar decisiones y sostener calidad real desde el replanteo hasta la entrega.',
-    date: '13 May 2026',
-    image: 'https://images.unsplash.com/photo-1494526585095-c41746248156?w=900&q=80',
-  },
-  {
-    category: 'Modelos',
-    title: 'Qué tipo de vivienda conviene: urbana, rural, cabaña o loft',
-    excerpt: 'Una mirada clara sobre cómo elegir el modelo adecuado según terreno, uso, inversión y estilo de vida.',
-    date: '09 May 2026',
-    image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=900&q=80',
-  },
-  {
-    category: 'Calidad',
-    title: 'Seguridad, estética y confort en una misma obra',
-    excerpt: 'Cuando el proyecto está bien resuelto, la casa no solo luce mejor: también se vive mejor y dura más.',
-    date: '30 Apr 2026',
-    image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=900&q=80',
-  },
-  {
-    category: 'Cobertura',
-    title: 'Construimos en Entre Ríos y provincias vecinas hasta 400 km',
-    excerpt: 'Nuestra logística y experiencia regional permiten sostener calidad y cumplimiento en una amplia área de trabajo.',
-    date: '21 Apr 2026',
-    image: 'https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=900&q=80',
   },
 ]
 
@@ -287,37 +255,6 @@ export default function App() {
                   <div className="portfolio-copy absolute inset-x-0 bottom-0 translate-y-4 p-6 text-white opacity-0 transition duration-500">
                     <div className="text-xs font-semibold uppercase tracking-[0.28em] text-accent">{item.location}</div>
                     <h3 className="mt-2 font-heading text-3xl">{item.title}</h3>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="blog" className="bg-cream py-22 md:py-28">
-          <div className="mx-auto max-w-7xl px-5 md:px-8">
-            <div className="mb-12 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-              <div data-reveal className="fade-up">
-                <div className="text-sm font-semibold uppercase tracking-[0.32em] text-midgreen">// Ideas y guía</div>
-                <h2 className="mt-4 font-heading text-4xl text-forest md:text-6xl">Nuestro blog</h2>
-              </div>
-              <a data-reveal data-delay="0.1" href="#" className="fade-up text-sm font-semibold text-midgreen transition hover:text-forest">Ver todo →</a>
-            </div>
-
-            <div className="grid gap-6 md:grid-cols-2">
-              {blogPosts.map((post, index) => (
-                <article key={post.title} data-reveal data-delay={String(index * 0.08)} className="blog-card scale-in overflow-hidden rounded-[1.5rem] bg-white shadow-[0_20px_50px_rgba(13,31,14,0.05)] transition hover:-translate-y-1 hover:shadow-[0_26px_60px_rgba(13,31,14,0.12)]">
-                  <div className="overflow-hidden">
-                    <img src={post.image} alt={post.title} className="blog-image h-64 w-full object-cover transition duration-700" />
-                  </div>
-                  <div className="p-7">
-                    <div className="text-xs font-semibold uppercase tracking-[0.28em] text-midgreen">{post.category}</div>
-                    <h3 className="mt-4 font-heading text-3xl leading-tight text-forest">{post.title}</h3>
-                    <p className="mt-4 text-base leading-7 text-mutedgreen">{post.excerpt}</p>
-                    <div className="mt-6 flex items-center justify-between gap-4 border-t border-forest/8 pt-5 text-sm font-medium text-mutedgreen">
-                      <span>{post.date}</span>
-                      <span className="font-semibold text-midgreen">Leer más →</span>
-                    </div>
                   </div>
                 </article>
               ))}
