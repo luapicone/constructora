@@ -1,55 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { cloneDefaultContent, normalizeContent } from './content'
+import { isSupabaseConfigured, supabase, SUPABASE_BUCKET } from './supabase'
 
 const heroVideo = 'https://cdn.pixabay.com/video/2025/01/22/254016_large.mp4'
-
-const navLinks = [
-  { label: 'Nosotros', href: '#about' },
-  { label: 'Proyectos', href: '#portfolio' },
-]
-
-const stats = [
-  { value: 40, suffix: '+', label: 'Años de Trayectoria' },
-  { value: 190, suffix: '+', label: 'Obras Entregadas' },
-  { value: 400, suffix: ' km', label: 'Radio de Cobertura' },
-  { value: 100, suffix: '%', label: 'Cumplimiento de Plazos' },
-]
-
-const portfolio = [
-  {
-    title: 'Casa Familiar Podestá',
-    location: 'Paraná, Entre Ríos',
-    image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80',
-    className: 'md:row-span-2',
-  },
-  {
-    title: 'Cabaña de Campo',
-    location: 'Victoria, Entre Ríos',
-    image: 'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=900&q=80',
-  },
-  {
-    title: 'Loft Contemporáneo',
-    location: 'Santa Fe Capital',
-    image: 'https://images.unsplash.com/photo-1600566753052-d70c7b608027?w=900&q=80',
-  },
-]
-
-const reasons = [
-  {
-    icon: '🛠️',
-    title: 'Experiencia y Trayectoria',
-    copy: 'Décadas de trabajo sostenido nos permiten ejecutar obras con criterio técnico, previsión y resultados confiables.',
-  },
-  {
-    icon: '🤝',
-    title: 'Atención Personalizada',
-    copy: 'Cada cliente recibe seguimiento cercano, soluciones a medida y acompañamiento real durante todo el proceso.',
-  },
-  {
-    icon: '⭐',
-    title: 'Precio y Calidad',
-    copy: 'Buscamos el mejor equilibrio entre inversión, terminaciones, confort y durabilidad para cada tipo de vivienda.',
-  },
-]
+const CONTENT_KEYS = ['settings', 'stats', 'portfolio', 'reasons']
 
 function useReveal() {
   useEffect(() => {
@@ -74,6 +28,45 @@ function useReveal() {
 
     return () => observer.disconnect()
   }, [])
+}
+
+function useSiteContent() {
+  const [content, setContent] = useState(cloneDefaultContent())
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  const refresh = async () => {
+    if (!isSupabaseConfigured()) {
+      setContent(cloneDefaultContent())
+      setLoading(false)
+      return
+    }
+
+    setLoading(true)
+    const { data, error: fetchError } = await supabase.from('site_content').select('key, value')
+
+    if (fetchError) {
+      setError(fetchError.message)
+      setContent(cloneDefaultContent())
+      setLoading(false)
+      return
+    }
+
+    const mapped = (data || []).reduce((acc, row) => {
+      acc[row.key] = row.value
+      return acc
+    }, {})
+
+    setContent(normalizeContent(mapped))
+    setError('')
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    refresh()
+  }, [])
+
+  return { content, setContent, loading, error, refresh }
 }
 
 function Counter({ value, prefix = '', suffix = '', label, start }) {
@@ -102,18 +95,24 @@ function Counter({ value, prefix = '', suffix = '', label, start }) {
   }, [count, prefix, suffix, value])
 
   return (
-    <div className="border-b border-white/10 px-6 py-8 text-center border-r-white/10 md:border-b-0 md:border-r md:last:border-r-0">
+    <div className="border-r-white/10 border-b border-white/10 px-6 py-8 text-center md:border-r md:border-b-0 md:last:border-r-0">
       <div className="font-heading text-4xl text-accent md:text-5xl">{formatted}</div>
       <div className="mt-3 text-xs font-semibold uppercase tracking-[0.28em] text-white/70">{label}</div>
     </div>
   )
 }
 
-export default function App() {
+function PublicSite({ content }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [statsVisible, setStatsVisible] = useState(false)
   const statsRef = useRef(null)
+  const { settings, stats, portfolio, reasons } = content
+
+  const navLinks = [
+    { label: 'Nosotros', href: '#about' },
+    { label: 'Proyectos', href: '#portfolio' },
+  ]
 
   useReveal()
 
@@ -143,20 +142,16 @@ export default function App() {
     <div className="bg-cream text-forest">
       <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${scrolled ? 'nav-glass py-3' : 'bg-transparent py-5 backdrop-blur-md'}`}>
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 md:px-8">
-          <a href="#top" className="font-heading text-2xl text-white md:text-3xl">Viviendas Podesta</a>
+          <a href="#top" className="font-heading text-2xl text-white md:text-3xl">{settings.brandName}</a>
           <nav className="hidden items-center gap-8 text-sm font-medium text-white/85 md:flex">
             {navLinks.map((link) => (
               <a key={link.label} href={link.href} className="transition hover:text-accent">{link.label}</a>
             ))}
           </nav>
           <div className="hidden md:block">
-            <a href="#cta" className="rounded-full bg-midgreen px-5 py-3 text-sm font-semibold text-white transition hover:bg-accent hover:text-forest">Solicitar asesoramiento</a>
+            <a href="#cta" className="rounded-full bg-midgreen px-5 py-3 text-sm font-semibold text-white transition hover:bg-accent hover:text-forest">{settings.navCtaLabel}</a>
           </div>
-          <button
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 text-white md:hidden"
-            onClick={() => setMenuOpen((v) => !v)}
-            aria-label="Toggle menu"
-          >
+          <button className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 text-white md:hidden" onClick={() => setMenuOpen((v) => !v)} aria-label="Toggle menu">
             <span className="text-xl">☰</span>
           </button>
         </div>
@@ -166,7 +161,7 @@ export default function App() {
               {navLinks.map((link) => (
                 <a key={link.label} href={link.href} onClick={() => setMenuOpen(false)}>{link.label}</a>
               ))}
-              <a href="#cta" onClick={() => setMenuOpen(false)} className="mt-2 rounded-full bg-accent px-5 py-3 text-center font-semibold text-forest">Solicitar asesoramiento</a>
+              <a href="#cta" onClick={() => setMenuOpen(false)} className="mt-2 rounded-full bg-accent px-5 py-3 text-center font-semibold text-forest">{settings.navCtaLabel}</a>
             </div>
           </div>
         )}
@@ -181,19 +176,19 @@ export default function App() {
           <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-5 pb-16 pt-28 md:px-8 md:pb-24 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl pb-10 lg:pb-0">
               <div className="hero-reveal mb-5 text-sm font-semibold uppercase tracking-[0.34em] text-accent" style={{ animationDelay: '0.2s' }}>
-                // Viviendas que combinan seguridad, estética y confort
+                // {settings.heroEyebrow}
               </div>
               <h1 className="hero-reveal max-w-4xl font-heading text-[clamp(5rem,10vw,9rem)] leading-[0.88] font-black text-white" style={{ animationDelay: '0.4s' }}>
-                Viviendas Podesta
+                {settings.heroTitle}
               </h1>
             </div>
             <div className="max-w-xl lg:pb-6">
               <p className="hero-reveal text-lg leading-8 text-white/75 md:text-xl" style={{ animationDelay: '0.6s' }}>
-                Construimos casas con atención personalizada, impecable cumplimiento de obra y soluciones adaptadas a modelos urbanos, rurales, cabañas, lofts o diseños aportados por cada cliente.
+                {settings.heroDescription}
               </p>
               <div className="hero-reveal mt-8 flex flex-wrap gap-4" style={{ animationDelay: '0.8s' }}>
-                <div className="rounded-full bg-gold px-5 py-3 text-sm font-bold text-forest shadow-lg shadow-gold/20">Entre Ríos + 400 km</div>
-                <div className="rounded-full border border-white/15 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur-md">Modelos a medida</div>
+                <div className="rounded-full bg-gold px-5 py-3 text-sm font-bold text-forest shadow-lg shadow-gold/20">{settings.heroBadgePrimary}</div>
+                <div className="rounded-full border border-white/15 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur-md">{settings.heroBadgeSecondary}</div>
               </div>
             </div>
           </div>
@@ -202,23 +197,21 @@ export default function App() {
 
         <section ref={statsRef} className="bg-forest">
           <div className="mx-auto grid max-w-7xl md:grid-cols-4">
-            {stats.map((stat) => <Counter key={stat.label} {...stat} start={statsVisible} />)}
+            {stats.map((stat) => <Counter key={stat.id || stat.label} {...stat} start={statsVisible} />)}
           </div>
         </section>
 
         <section id="about" className="bg-cream py-22 md:py-28">
           <div className="mx-auto grid max-w-7xl items-center gap-14 px-5 md:px-8 lg:grid-cols-2">
             <div data-reveal className="fade-left relative mx-auto w-full max-w-xl">
-              <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1000&q=80" alt="Casa contemporánea" className="h-[520px] w-full rounded-[2rem] object-cover shadow-[0_30px_80px_rgba(13,31,14,0.12)]" />
-              <img src="https://images.unsplash.com/photo-1600607687644-c7f34f2a7f0b?w=500&q=80" alt="Interior de casa" className="absolute -bottom-10 right-0 h-56 w-44 rounded-[1.5rem] border-[6px] border-cream object-cover shadow-2xl md:right-[-28px]" />
+              <img src={settings.aboutPrimaryImage} alt="Casa contemporánea" className="h-[520px] w-full rounded-[2rem] object-cover shadow-[0_30px_80px_rgba(13,31,14,0.12)]" />
+              <img src={settings.aboutSecondaryImage} alt="Interior de casa" className="absolute -bottom-10 right-0 h-56 w-44 rounded-[1.5rem] border-[6px] border-cream object-cover shadow-2xl md:right-[-28px]" />
             </div>
 
             <div data-reveal data-delay="0.15" className="fade-right">
-              <div className="text-sm font-semibold uppercase tracking-[0.32em] text-midgreen">// Trayectoria y confianza</div>
-              <h2 className="mt-5 max-w-xl font-heading text-4xl leading-tight text-forest md:text-6xl">Experiencia real para construir la casa que imaginás</h2>
-              <p className="mt-6 max-w-xl text-lg leading-8 text-mutedgreen">
-                En Viviendas Podesta trabajamos con una atención cercana y resolutiva, acompañando a cada cliente desde la idea inicial hasta la entrega final. Nuestra trayectoria respalda obras seguras, estéticas, confortables y ejecutadas con foco en la mejor relación precio-calidad.
-              </p>
+              <div className="text-sm font-semibold uppercase tracking-[0.32em] text-midgreen">// {settings.aboutEyebrow}</div>
+              <h2 className="mt-5 max-w-xl font-heading text-4xl leading-tight text-forest md:text-6xl">{settings.aboutTitle}</h2>
+              <p className="mt-6 max-w-xl text-lg leading-8 text-mutedgreen">{settings.aboutBody}</p>
               <a href="#portfolio" className="mt-8 inline-flex rounded-full bg-forest px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-midgreen">Ver proyectos →</a>
             </div>
           </div>
@@ -231,8 +224,8 @@ export default function App() {
           <div className="absolute inset-0 bg-[rgba(13,31,14,0.65)]" />
           <div className="relative z-10 flex h-full items-center justify-center px-5 text-center md:px-8">
             <div data-reveal className="fade-up max-w-4xl text-white">
-              <blockquote className="font-heading text-4xl italic leading-tight md:text-6xl">Cumplir tiempos de obra también es construir confianza.</blockquote>
-              <div className="mt-6 text-sm font-semibold uppercase tracking-[0.3em] text-accent">// Filosofía Viviendas Podesta</div>
+              <blockquote className="font-heading text-4xl italic leading-tight md:text-6xl">{settings.quoteText}</blockquote>
+              <div className="mt-6 text-sm font-semibold uppercase tracking-[0.3em] text-accent">// {settings.quoteLabel}</div>
             </div>
           </div>
         </section>
@@ -241,15 +234,15 @@ export default function App() {
           <div className="mx-auto max-w-7xl px-5 md:px-8">
             <div className="mb-12 grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
               <div data-reveal className="fade-up">
-                <div className="text-sm font-semibold uppercase tracking-[0.32em] text-midgreen">// Tipologías y obras</div>
-                <h2 className="mt-4 font-heading text-4xl text-forest md:text-6xl">Proyectos</h2>
+                <div className="text-sm font-semibold uppercase tracking-[0.32em] text-midgreen">// {settings.portfolioEyebrow}</div>
+                <h2 className="mt-4 font-heading text-4xl text-forest md:text-6xl">{settings.portfolioTitle}</h2>
               </div>
-              <div data-reveal data-delay="0.1" className="fade-up font-heading text-5xl text-forest/15 md:text-7xl">//2026</div>
+              <div data-reveal data-delay="0.1" className="fade-up font-heading text-5xl text-forest/15 md:text-7xl">{settings.portfolioWatermark}</div>
             </div>
 
             <div className="grid gap-6 md:grid-cols-3 md:grid-rows-2">
               {portfolio.map((item, index) => (
-                <article key={item.title} data-reveal data-delay={String(index * 0.1)} className={`portfolio-card scale-in group relative overflow-hidden rounded-[1.75rem] ${item.className ?? ''}`}>
+                <article key={item.id || item.title} data-reveal data-delay={String(index * 0.1)} className={`portfolio-card scale-in group relative overflow-hidden rounded-[1.75rem] ${item.featured ? 'md:row-span-2' : ''}`}>
                   <img src={item.image} alt={item.title} className="portfolio-image h-full min-h-[280px] w-full object-cover transition duration-700" />
                   <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(13,31,14,0.9),transparent_55%)]" />
                   <div className="portfolio-copy absolute inset-x-0 bottom-0 translate-y-4 p-6 text-white opacity-0 transition duration-500">
@@ -265,12 +258,12 @@ export default function App() {
         <section className="bg-forest py-22 text-white md:py-28">
           <div className="mx-auto max-w-7xl px-5 text-center md:px-8">
             <div data-reveal className="fade-up mx-auto max-w-4xl">
-              <h2 className="font-heading text-4xl leading-tight md:text-6xl">Por qué elegir Viviendas Podesta para construir tu próxima casa</h2>
+              <h2 className="font-heading text-4xl leading-tight md:text-6xl">{settings.reasonsTitle}</h2>
             </div>
 
             <div className="mt-14 grid gap-6 md:grid-cols-3">
               {reasons.map((reason, index) => (
-                <article key={reason.title} data-reveal data-delay={String(index * 0.1)} className="scale-in rounded-[1.6rem] border border-accent/20 bg-white/5 p-8 text-left backdrop-blur-md transition hover:-translate-y-2 hover:border-accent/55 hover:shadow-[0_0_30px_rgba(125,196,127,0.12)]">
+                <article key={reason.id || reason.title} data-reveal data-delay={String(index * 0.1)} className="scale-in rounded-[1.6rem] border border-accent/20 bg-white/5 p-8 text-left backdrop-blur-md transition hover:-translate-y-2 hover:border-accent/55 hover:shadow-[0_0_30px_rgba(125,196,127,0.12)]">
                   <div className="text-3xl">{reason.icon}</div>
                   <h3 className="mt-5 font-heading text-3xl">{reason.title}</h3>
                   <p className="mt-4 text-base leading-7 text-white/72">{reason.copy}</p>
@@ -281,7 +274,7 @@ export default function App() {
         </section>
 
         <section id="cta" className="relative overflow-hidden bg-forest py-24 text-white md:py-32">
-          <img src="https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=1600&q=80" alt="Proyecto residencial" className="absolute inset-0 h-full w-full object-cover opacity-20" />
+          <img src={settings.ctaBackgroundImage} alt="Proyecto residencial" className="absolute inset-0 h-full w-full object-cover opacity-20" />
           <div className="leaf left-[12%] top-[58%] h-5 w-5" style={{ animationDuration: '12s' }} />
           <div className="leaf left-[28%] top-[78%] h-7 w-7" style={{ animationDuration: '14s' }} />
           <div className="leaf right-[20%] top-[65%] h-4 w-4" style={{ animationDuration: '11s' }} />
@@ -289,12 +282,13 @@ export default function App() {
 
           <div className="relative z-10 mx-auto max-w-4xl px-5 text-center md:px-8">
             <div data-reveal className="fade-up">
-              <h2 className="font-heading text-4xl leading-tight md:text-7xl">Empezá tu <span className="italic text-accent">proyecto con nosotros</span></h2>
-              <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/72">
-                Si buscás una constructora confiable para una casa urbana, rural, cabaña, loft o un diseño propio, en Viviendas Podesta te acompañamos con atención personalizada y ejecución responsable.
-              </p>
+              <h2 className="font-heading text-4xl leading-tight md:text-7xl">
+                {settings.ctaTitle.replace(settings.ctaHighlight, '')}
+                <span className="italic text-accent">{settings.ctaHighlight}</span>
+              </h2>
+              <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/72">{settings.ctaDescription}</p>
               <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
-                <a href="#top" className="rounded-full bg-accent px-7 py-4 text-sm font-semibold text-forest transition hover:bg-white">Solicitar asesoramiento</a>
+                <a href="#top" className="rounded-full bg-accent px-7 py-4 text-sm font-semibold text-forest transition hover:bg-white">{settings.navCtaLabel}</a>
                 <a href="#about" className="rounded-full border border-white/35 px-7 py-4 text-sm font-semibold text-white transition hover:border-accent hover:text-accent">Ver trayectoria</a>
               </div>
             </div>
@@ -305,10 +299,8 @@ export default function App() {
       <footer className="border-t border-accent/30 bg-forest text-white">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 md:px-8 lg:grid-cols-[2fr_1fr_1fr_1fr]">
           <div>
-            <a href="#top" className="font-heading text-4xl">Viviendas Podesta</a>
-            <p className="mt-4 max-w-md text-base leading-7 text-white/68">
-              Constructora de viviendas con trayectoria, atención personalizada y proyectos ejecutados con seguridad, estética, confort y excelente relación precio-calidad.
-            </p>
+            <a href="#top" className="font-heading text-4xl">{settings.brandName}</a>
+            <p className="mt-4 max-w-md text-base leading-7 text-white/68">{settings.footerDescription}</p>
             <div className="mt-6 flex gap-3 text-lg text-accent"><span>○</span><span>◐</span><span>◇</span></div>
           </div>
 
@@ -316,37 +308,313 @@ export default function App() {
             <div className="text-sm font-semibold uppercase tracking-[0.3em] text-accent">Empresa</div>
             <div className="mt-5 flex flex-col gap-3 text-white/70">
               <a href="#about">Nosotros</a>
-              <a href="#services">Servicios</a>
               <a href="#portfolio">Proyectos</a>
-              <a href="#">Carreras</a>
+              <a href="#cta">Contacto</a>
             </div>
           </div>
 
           <div>
-            <div className="text-sm font-semibold uppercase tracking-[0.3em] text-accent">Recursos</div>
+            <div className="text-sm font-semibold uppercase tracking-[0.3em] text-accent">Panel</div>
             <div className="mt-5 flex flex-col gap-3 text-white/70">
-              <a href="#blog">Blog</a>
-              <a href="#events">Eventos</a>
+              <a href="/?admin=1">Admin</a>
+              <a href="#cta">Asesoramiento</a>
               <a href="#portfolio">Casos</a>
-              <a href="#">FAQ</a>
             </div>
           </div>
 
           <div>
             <div className="text-sm font-semibold uppercase tracking-[0.3em] text-accent">Contacto</div>
             <div className="mt-5 space-y-3 text-white/70">
-              <p>hola@viviendaspodesta.com</p>
-              <p>+54 11 5555 0186</p>
-              <p>Av. del Libertador 2040, Buenos Aires</p>
+              <p>{settings.contactEmail}</p>
+              <p>{settings.contactPhone}</p>
+              <p>{settings.contactAddress}</p>
             </div>
           </div>
         </div>
 
         <div className="mx-auto flex max-w-7xl flex-col gap-4 border-t border-white/10 px-5 py-6 text-sm text-white/55 md:flex-row md:items-center md:justify-between md:px-8">
-          <p>© 2026 Viviendas Podesta. All rights reserved.</p>
-          <div className="font-heading text-3xl text-white/8 md:text-5xl">Viviendas Podesta</div>
+          <p>© 2026 {settings.brandName}. All rights reserved.</p>
+          <div className="font-heading text-3xl text-white/8 md:text-5xl">{settings.brandName}</div>
         </div>
       </footer>
     </div>
   )
+}
+
+function AdminField({ label, value, onChange, type = 'text', rows = 3 }) {
+  const baseClass = 'w-full rounded-2xl border border-forest/15 bg-white px-4 py-3 text-sm text-forest outline-none transition focus:border-midgreen'
+  return (
+    <label className="block space-y-2">
+      <span className="text-sm font-semibold text-forest">{label}</span>
+      {type === 'textarea' ? (
+        <textarea className={baseClass} rows={rows} value={value || ''} onChange={(event) => onChange(event.target.value)} />
+      ) : (
+        <input className={baseClass} type={type} value={value || ''} onChange={(event) => onChange(event.target.value)} />
+      )}
+    </label>
+  )
+}
+
+function AdminImageField({ label, value, onChange, onUpload, uploading }) {
+  return (
+    <div className="space-y-3">
+      <AdminField label={label} value={value} onChange={onChange} />
+      <div className="flex flex-wrap items-center gap-3">
+        <label className="inline-flex cursor-pointer rounded-full bg-forest px-4 py-2 text-sm font-semibold text-white">
+          {uploading ? 'Subiendo...' : 'Subir imagen'}
+          <input type="file" accept="image/*" className="hidden" onChange={onUpload} disabled={uploading} />
+        </label>
+        {value ? <img src={value} alt={label} className="h-16 w-24 rounded-xl object-cover" /> : null}
+      </div>
+    </div>
+  )
+}
+
+function AdminListSection({ title, children, onAdd }) {
+  return (
+    <section className="space-y-5 rounded-[1.75rem] bg-white p-6 shadow-[0_20px_50px_rgba(13,31,14,0.08)]">
+      <div className="flex items-center justify-between gap-4">
+        <h3 className="font-heading text-3xl text-forest">{title}</h3>
+        {onAdd ? <button className="rounded-full bg-midgreen px-4 py-2 text-sm font-semibold text-white" onClick={onAdd}>Agregar</button> : null}
+      </div>
+      {children}
+    </section>
+  )
+}
+
+function AdminPage({ content, setContent, refresh }) {
+  const [session, setSession] = useState(null)
+  const [authForm, setAuthForm] = useState({ email: '', password: '' })
+  const [authError, setAuthError] = useState('')
+  const [status, setStatus] = useState('')
+  const [saving, setSaving] = useState(false)
+  const [uploadingField, setUploadingField] = useState('')
+
+  useEffect(() => {
+    if (!supabase) return
+    supabase.auth.getSession().then(({ data }) => setSession(data.session ?? null))
+    const { data } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+      setSession(nextSession)
+    })
+    return () => data.subscription.unsubscribe()
+  }, [])
+
+  const updateSettings = (field, value) => {
+    setContent((current) => ({ ...current, settings: { ...current.settings, [field]: value } }))
+  }
+
+  const updateListItem = (listKey, index, patch) => {
+    setContent((current) => ({
+      ...current,
+      [listKey]: current[listKey].map((item, itemIndex) => (itemIndex === index ? { ...item, ...patch } : item)),
+    }))
+  }
+
+  const addListItem = (listKey, template) => {
+    setContent((current) => ({ ...current, [listKey]: [...current[listKey], { id: crypto.randomUUID(), ...template }] }))
+  }
+
+  const removeListItem = (listKey, index) => {
+    setContent((current) => ({ ...current, [listKey]: current[listKey].filter((_, itemIndex) => itemIndex !== index) }))
+  }
+
+  const uploadImage = async (file, pathPrefix = 'general') => {
+    if (!supabase) throw new Error('Supabase no configurado')
+    const ext = file.name.split('.').pop() || 'jpg'
+    const path = `${pathPrefix}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
+    const { error } = await supabase.storage.from(SUPABASE_BUCKET).upload(path, file, { upsert: false })
+    if (error) throw error
+    const { data } = supabase.storage.from(SUPABASE_BUCKET).getPublicUrl(path)
+    return data.publicUrl
+  }
+
+  const handleUpload = async (field, pathPrefix, file, listKey, index) => {
+    if (!file) return
+    try {
+      setUploadingField(field)
+      setStatus('')
+      const url = await uploadImage(file, pathPrefix)
+      if (typeof index === 'number') {
+        updateListItem(listKey, index, { [field]: url })
+      } else {
+        updateSettings(field, url)
+      }
+    } catch (error) {
+      setStatus(error.message)
+    } finally {
+      setUploadingField('')
+    }
+  }
+
+  const signIn = async (event) => {
+    event.preventDefault()
+    setAuthError('')
+    const { error } = await supabase.auth.signInWithPassword(authForm)
+    if (error) setAuthError(error.message)
+  }
+
+  const signOut = async () => {
+    await supabase.auth.signOut()
+  }
+
+  const save = async () => {
+    if (!supabase) return
+    setSaving(true)
+    setStatus('')
+    const rows = CONTENT_KEYS.map((key) => ({ key, value: content[key] }))
+    const { error } = await supabase.from('site_content').upsert(rows, { onConflict: 'key' })
+    if (error) {
+      setStatus(error.message)
+      setSaving(false)
+      return
+    }
+    setStatus('Cambios guardados.')
+    setSaving(false)
+    refresh()
+  }
+
+  if (!isSupabaseConfigured()) {
+    return (
+      <div className="min-h-screen bg-cream px-5 py-16 text-forest md:px-8">
+        <div className="mx-auto max-w-3xl rounded-[2rem] bg-white p-8 shadow-[0_20px_50px_rgba(13,31,14,0.08)]">
+          <h1 className="font-heading text-5xl">Admin Viviendas Podesta</h1>
+          <p className="mt-4 text-lg text-mutedgreen">Falta configurar Supabase. Completá <code>.env</code> usando <code>.env.example</code> y creá la tabla/bucket indicados en el README.</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!session) {
+    return (
+      <div className="min-h-screen bg-cream px-5 py-16 md:px-8">
+        <div className="mx-auto max-w-md rounded-[2rem] bg-white p-8 shadow-[0_20px_50px_rgba(13,31,14,0.08)]">
+          <h1 className="font-heading text-5xl text-forest">Admin</h1>
+          <p className="mt-4 text-mutedgreen">Ingresá con un usuario de Supabase Auth para administrar imágenes y contenido.</p>
+          <form className="mt-8 space-y-4" onSubmit={signIn}>
+            <AdminField label="Email" value={authForm.email} onChange={(value) => setAuthForm((current) => ({ ...current, email: value }))} type="email" />
+            <AdminField label="Contraseña" value={authForm.password} onChange={(value) => setAuthForm((current) => ({ ...current, password: value }))} type="password" />
+            {authError ? <p className="text-sm text-red-600">{authError}</p> : null}
+            <button className="w-full rounded-full bg-forest px-5 py-3 font-semibold text-white">Ingresar</button>
+          </form>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="min-h-screen bg-cream px-5 py-10 md:px-8">
+      <div className="mx-auto max-w-7xl space-y-8">
+        <div className="flex flex-col gap-4 rounded-[2rem] bg-white p-8 shadow-[0_20px_50px_rgba(13,31,14,0.08)] md:flex-row md:items-center md:justify-between">
+          <div>
+            <h1 className="font-heading text-5xl text-forest">Panel admin</h1>
+            <p className="mt-3 text-mutedgreen">Desde acá pueden agregar, quitar o reemplazar imágenes ya subidas y editar el contenido visible del sitio.</p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <a href="/" className="rounded-full border border-forest/15 px-5 py-3 text-sm font-semibold text-forest">Ver sitio</a>
+            <button className="rounded-full bg-midgreen px-5 py-3 text-sm font-semibold text-white" onClick={save} disabled={saving}>{saving ? 'Guardando...' : 'Guardar cambios'}</button>
+            <button className="rounded-full border border-forest/15 px-5 py-3 text-sm font-semibold text-forest" onClick={signOut}>Salir</button>
+          </div>
+        </div>
+
+        {status ? <div className="rounded-2xl bg-white px-5 py-4 text-sm text-forest shadow-[0_12px_35px_rgba(13,31,14,0.08)]">{status}</div> : null}
+
+        <section className="grid gap-6 lg:grid-cols-2">
+          <div className="space-y-5 rounded-[1.75rem] bg-white p-6 shadow-[0_20px_50px_rgba(13,31,14,0.08)]">
+            <h3 className="font-heading text-3xl text-forest">Generales</h3>
+            <AdminField label="Nombre de marca" value={content.settings.brandName} onChange={(value) => updateSettings('brandName', value)} />
+            <AdminField label="CTA navegación" value={content.settings.navCtaLabel} onChange={(value) => updateSettings('navCtaLabel', value)} />
+            <AdminField label="Título hero" value={content.settings.heroTitle} onChange={(value) => updateSettings('heroTitle', value)} />
+            <AdminField label="Bajada hero" value={content.settings.heroDescription} onChange={(value) => updateSettings('heroDescription', value)} type="textarea" rows={4} />
+            <AdminField label="Badge hero 1" value={content.settings.heroBadgePrimary} onChange={(value) => updateSettings('heroBadgePrimary', value)} />
+            <AdminField label="Badge hero 2" value={content.settings.heroBadgeSecondary} onChange={(value) => updateSettings('heroBadgeSecondary', value)} />
+          </div>
+
+          <div className="space-y-5 rounded-[1.75rem] bg-white p-6 shadow-[0_20px_50px_rgba(13,31,14,0.08)]">
+            <h3 className="font-heading text-3xl text-forest">Nosotros / CTA</h3>
+            <AdminField label="Título nosotros" value={content.settings.aboutTitle} onChange={(value) => updateSettings('aboutTitle', value)} />
+            <AdminField label="Texto nosotros" value={content.settings.aboutBody} onChange={(value) => updateSettings('aboutBody', value)} type="textarea" rows={5} />
+            <AdminImageField label="Imagen principal nosotros" value={content.settings.aboutPrimaryImage} onChange={(value) => updateSettings('aboutPrimaryImage', value)} uploading={uploadingField === 'aboutPrimaryImage'} onUpload={(event) => handleUpload('aboutPrimaryImage', 'about', event.target.files?.[0])} />
+            <AdminImageField label="Imagen secundaria nosotros" value={content.settings.aboutSecondaryImage} onChange={(value) => updateSettings('aboutSecondaryImage', value)} uploading={uploadingField === 'aboutSecondaryImage'} onUpload={(event) => handleUpload('aboutSecondaryImage', 'about', event.target.files?.[0])} />
+            <AdminImageField label="Imagen fondo CTA" value={content.settings.ctaBackgroundImage} onChange={(value) => updateSettings('ctaBackgroundImage', value)} uploading={uploadingField === 'ctaBackgroundImage'} onUpload={(event) => handleUpload('ctaBackgroundImage', 'cta', event.target.files?.[0])} />
+          </div>
+        </section>
+
+        <AdminListSection
+          title="Estadísticas"
+          onAdd={() => addListItem('stats', { value: 0, prefix: '', suffix: '', label: 'Nueva métrica' })}
+        >
+          <div className="grid gap-4 md:grid-cols-2">
+            {content.stats.map((stat, index) => (
+              <div key={stat.id} className="space-y-3 rounded-2xl border border-forest/10 p-4">
+                <div className="flex justify-end"><button className="text-sm font-semibold text-red-600" onClick={() => removeListItem('stats', index)}>Eliminar</button></div>
+                <AdminField label="Valor" value={stat.value} onChange={(value) => updateListItem('stats', index, { value: Number(value) || 0 })} type="number" />
+                <AdminField label="Prefijo" value={stat.prefix || ''} onChange={(value) => updateListItem('stats', index, { prefix: value })} />
+                <AdminField label="Sufijo" value={stat.suffix || ''} onChange={(value) => updateListItem('stats', index, { suffix: value })} />
+                <AdminField label="Etiqueta" value={stat.label} onChange={(value) => updateListItem('stats', index, { label: value })} />
+              </div>
+            ))}
+          </div>
+        </AdminListSection>
+
+        <AdminListSection
+          title="Proyectos / imágenes"
+          onAdd={() => addListItem('portfolio', { title: 'Nuevo proyecto', location: 'Ubicación', image: '', featured: false })}
+        >
+          <div className="grid gap-4 lg:grid-cols-3">
+            {content.portfolio.map((item, index) => (
+              <div key={item.id} className="space-y-3 rounded-2xl border border-forest/10 p-4">
+                <div className="flex justify-between gap-3">
+                  <span className="text-sm font-semibold text-forest">Proyecto {index + 1}</span>
+                  <button className="text-sm font-semibold text-red-600" onClick={() => removeListItem('portfolio', index)}>Eliminar</button>
+                </div>
+                <AdminField label="Título" value={item.title} onChange={(value) => updateListItem('portfolio', index, { title: value })} />
+                <AdminField label="Ubicación" value={item.location} onChange={(value) => updateListItem('portfolio', index, { location: value })} />
+                <label className="flex items-center gap-3 text-sm font-semibold text-forest">
+                  <input type="checkbox" checked={Boolean(item.featured)} onChange={(event) => updateListItem('portfolio', index, { featured: event.target.checked })} />
+                  Destacado (ocupa doble alto)
+                </label>
+                <AdminImageField label="Imagen" value={item.image} onChange={(value) => updateListItem('portfolio', index, { image: value })} uploading={uploadingField === `portfolio-${index}`} onUpload={(event) => handleUpload('image', `portfolio/${index + 1}`, event.target.files?.[0], 'portfolio', index)} />
+              </div>
+            ))}
+          </div>
+        </AdminListSection>
+
+        <AdminListSection
+          title="Diferenciales"
+          onAdd={() => addListItem('reasons', { icon: '⭐', title: 'Nuevo diferencial', copy: 'Texto del diferencial' })}
+        >
+          <div className="grid gap-4 lg:grid-cols-3">
+            {content.reasons.map((item, index) => (
+              <div key={item.id} className="space-y-3 rounded-2xl border border-forest/10 p-4">
+                <div className="flex justify-end"><button className="text-sm font-semibold text-red-600" onClick={() => removeListItem('reasons', index)}>Eliminar</button></div>
+                <AdminField label="Ícono" value={item.icon} onChange={(value) => updateListItem('reasons', index, { icon: value })} />
+                <AdminField label="Título" value={item.title} onChange={(value) => updateListItem('reasons', index, { title: value })} />
+                <AdminField label="Texto" value={item.copy} onChange={(value) => updateListItem('reasons', index, { copy: value })} type="textarea" rows={4} />
+              </div>
+            ))}
+          </div>
+        </AdminListSection>
+
+        <section className="rounded-[1.75rem] bg-white p-6 shadow-[0_20px_50px_rgba(13,31,14,0.08)]">
+          <h3 className="font-heading text-3xl text-forest">Contacto</h3>
+          <div className="mt-5 grid gap-4 md:grid-cols-3">
+            <AdminField label="Email" value={content.settings.contactEmail} onChange={(value) => updateSettings('contactEmail', value)} />
+            <AdminField label="Teléfono" value={content.settings.contactPhone} onChange={(value) => updateSettings('contactPhone', value)} />
+            <AdminField label="Dirección" value={content.settings.contactAddress} onChange={(value) => updateSettings('contactAddress', value)} />
+          </div>
+        </section>
+      </div>
+    </div>
+  )
+}
+
+export default function App() {
+  const { content, setContent, loading, refresh } = useSiteContent()
+  const isAdmin = typeof window !== 'undefined' && (window.location.search.includes('admin=1') || window.location.pathname === '/admin')
+
+  if (loading) {
+    return <div className="flex min-h-screen items-center justify-center bg-cream text-lg text-forest">Cargando contenido...</div>
+  }
+
+  return isAdmin ? <AdminPage content={content} setContent={setContent} refresh={refresh} /> : <PublicSite content={content} />
 }
