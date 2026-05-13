@@ -355,7 +355,7 @@ function PublicSite({ content }) {
                   key={model.id || model.title}
                   data-reveal
                   data-delay={String(index * 0.08)}
-                  className="scale-in overflow-hidden rounded-[1.75rem] bg-cream shadow-[0_22px_55px_rgba(13,31,14,0.06)] transition duration-300 hover:scale-[1.04] hover:shadow-[0_28px_65px_rgba(13,31,14,0.12)]"
+                  className="scale-in overflow-hidden rounded-[1.75rem] bg-cream shadow-[0_22px_55px_rgba(13,31,14,0.06)] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[1.04] hover:shadow-[0_28px_65px_rgba(13,31,14,0.12)]"
                 >
                   <div className="overflow-hidden">
                     <img src={model.image} alt={model.title} className="h-64 w-full object-cover transition duration-700 hover:scale-105" />
