@@ -146,7 +146,7 @@ function PublicSite({ content }) {
         <div className="mx-auto flex max-w-[1320px] items-center justify-between rounded-full border border-[#b89a67]/75 bg-[#081521]/88 px-5 py-3 shadow-[0_18px_45px_rgba(0,0,0,0.18)] backdrop-blur-xl md:px-8">
           <div className="flex items-center gap-4 md:gap-5">
             <a href="#top" className="flex items-center gap-3 text-white">
-              <span className="text-lg text-[#c5a059]">❦</span>
+              <span className="text-lg text-white">❦</span>
               <span className="font-heading text-xl md:text-2xl">{settings.brandName}</span>
             </a>
             <span className="hidden h-10 w-px bg-[#b89a67]/55 md:block" />
