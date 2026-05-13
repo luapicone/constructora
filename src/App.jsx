@@ -382,37 +382,39 @@ function PublicSite({ content }) {
           </div>
         </section>
 
-        <section className="bg-[#efe7da] py-22 md:py-30">
+        <section className="bg-[#f2eadf] py-24 md:py-32">
           <div className="mx-auto max-w-7xl px-5 md:px-8">
             <div data-reveal className="fade-up mx-auto max-w-4xl text-center">
               <div className="mx-auto flex w-fit items-center gap-4 text-[#b89462]">
-                <span className="h-px w-10 bg-[#b89462]/70" />
-                <span className="text-xs font-semibold uppercase tracking-[0.28em]">Por qué elegirnos</span>
-                <span className="h-px w-10 bg-[#b89462]/70" />
+                <span className="h-px w-12 bg-[#b89462]/70" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.3em]">Por qué elegirnos</span>
+                <span className="h-px w-12 bg-[#b89462]/70" />
               </div>
-              <h2 className="mt-6 font-heading text-4xl leading-tight text-forest md:text-6xl">{settings.reasonsTitle}</h2>
+              <h2 className="mt-6 font-heading text-4xl leading-[1.08] text-forest md:text-[3.8rem]">{settings.reasonsTitle}</h2>
             </div>
 
-            <div className="mt-14 grid gap-6 lg:grid-cols-3">
+            <div className="mt-16 grid gap-6 lg:grid-cols-3">
               {reasons.map((reason, index) => (
                 <article
                   key={reason.id || reason.title}
                   data-reveal
                   data-delay={String(index * 0.1)}
-                  className="scale-in relative overflow-hidden rounded-[2rem] border border-[#d7c4a5] bg-[#f8f3ea] p-8 text-left shadow-[0_28px_60px_rgba(13,31,14,0.08)] transition hover:-translate-y-2 hover:shadow-[0_34px_70px_rgba(13,31,14,0.12)] md:p-10"
+                  className="scale-in relative overflow-hidden rounded-[2.2rem] border border-[#2c3b2b]/10 bg-[#102116] p-8 text-left text-white shadow-[0_30px_70px_rgba(13,31,14,0.16)] transition hover:-translate-y-2 hover:shadow-[0_36px_80px_rgba(13,31,14,0.2)] md:p-10"
                 >
-                  <span className="absolute left-0 top-0 h-1 w-full bg-[linear-gradient(90deg,#b89462,transparent)]" />
-                  <div className="flex items-start justify-between gap-5">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-full border border-[#d7c4a5] bg-white text-2xl shadow-sm">
-                      {reason.icon}
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(184,148,98,0.14),transparent_35%)]" />
+                  <div className="relative z-10">
+                    <div className="flex items-start justify-between gap-5">
+                      <div className="flex h-14 w-14 items-center justify-center rounded-full border border-[#b89462]/55 bg-white/5 text-2xl shadow-sm">
+                        {reason.icon}
+                      </div>
+                      <div className="font-heading text-5xl leading-none text-[#b89462]/22">0{index + 1}</div>
                     </div>
-                    <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#b89462]">0{index + 1}</div>
-                  </div>
-                  <h3 className="mt-8 font-heading text-3xl leading-tight text-forest md:text-[2rem]">{reason.title}</h3>
-                  <p className="mt-5 text-base leading-8 text-mutedgreen">{reason.copy}</p>
-                  <div className="mt-8 flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#b89462]">
-                    <span className="h-px w-8 bg-[#b89462]/70" />
-                    Viviendas Podesta
+                    <h3 className="mt-10 font-heading text-[2rem] leading-tight text-[#f7f2ea]">{reason.title}</h3>
+                    <p className="mt-5 text-base leading-8 text-white/70">{reason.copy}</p>
+                    <div className="mt-10 flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.26em] text-[#b89462]">
+                      <span className="h-px w-10 bg-[#b89462]/70" />
+                      Viviendas Podesta
+                    </div>
                   </div>
                 </article>
               ))}
