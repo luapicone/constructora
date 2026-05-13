@@ -37,7 +37,7 @@ button { cursor: pointer; }
   opacity: 1;
   transform: translate(0, 0) scale(1);
 }
-.hero-reveal { opacity: 0; animation: fadeUp 0.8s ease forwards; }
+.hero-reveal { animation: fadeUp 0.8s ease both; }
 .scroll-indicator { animation: pulseLine 2.8s ease-in-out infinite; }
 .service-card:hover .service-image,
 .portfolio-card:hover .portfolio-image,
