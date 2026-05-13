@@ -483,6 +483,22 @@ function AdminField({ label, value, onChange, type = 'text', rows = 3 }) {
 
 function HouseDetailPage({ settings, house, onBack }) {
   const gallery = house.gallery?.length ? house.gallery : [house.image]
+  const [lightboxIndex, setLightboxIndex] = useState(null)
+
+  const closeLightbox = () => setLightboxIndex(null)
+  const showPrev = () => setLightboxIndex((current) => (current === null ? 0 : (current - 1 + gallery.length) % gallery.length))
+  const showNext = () => setLightboxIndex((current) => (current === null ? 0 : (current + 1) % gallery.length))
+
+  useEffect(() => {
+    if (lightboxIndex === null) return undefined
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') closeLightbox()
+      if (event.key === 'ArrowLeft') showPrev()
+      if (event.key === 'ArrowRight') showNext()
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [lightboxIndex, gallery.length])
 
   return (
     <div className="min-h-screen bg-cream text-forest">
@@ -518,13 +534,18 @@ function HouseDetailPage({ settings, house, onBack }) {
           <div className="space-y-6">
             <div className="grid gap-6 md:grid-cols-2">
               {gallery.map((image, index) => (
-                <div key={`${image}-${index}`} className={`${index === 0 ? 'md:col-span-2' : ''} overflow-hidden rounded-[1.75rem] bg-white shadow-[0_24px_60px_rgba(13,31,14,0.08)]`}>
+                <button
+                  key={`${image}-${index}`}
+                  type="button"
+                  onClick={() => setLightboxIndex(index)}
+                  className={`${index === 0 ? 'md:col-span-2' : ''} overflow-hidden rounded-[1.75rem] bg-white text-left shadow-[0_24px_60px_rgba(13,31,14,0.08)]`}
+                >
                   <img
                     src={image}
                     alt={`${house.title} ${index + 1}`}
-                    className={`w-full object-cover ${index === 0 ? 'h-[440px]' : 'h-[280px]'}`}
+                    className={`w-full object-cover transition duration-500 hover:scale-[1.02] ${index === 0 ? 'h-[440px]' : 'h-[280px]'}`}
                   />
-                </div>
+                </button>
               ))}
             </div>
           </div>
@@ -549,6 +570,51 @@ function HouseDetailPage({ settings, house, onBack }) {
           </div>
         </div>
       </section>
+
+      {lightboxIndex !== null ? (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/92 px-4 py-8">
+          <button
+            type="button"
+            onClick={closeLightbox}
+            className="absolute right-5 top-5 rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10"
+          >
+            Cerrar ✕
+          </button>
+
+          {gallery.length > 1 ? (
+            <button
+              type="button"
+              onClick={showPrev}
+              className="absolute left-4 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-white/10 text-2xl text-white transition hover:bg-white/20 md:left-8"
+              aria-label="Imagen anterior"
+            >
+              ←
+            </button>
+          ) : null}
+
+          <div className="mx-auto flex max-w-6xl flex-col items-center gap-5">
+            <img
+              src={gallery[lightboxIndex]}
+              alt={`${house.title} ampliada ${lightboxIndex + 1}`}
+              className="max-h-[78vh] w-auto max-w-full rounded-[1.5rem] object-contain shadow-[0_30px_80px_rgba(0,0,0,0.45)]"
+            />
+            <div className="text-sm font-medium text-white/75">
+              Imagen {lightboxIndex + 1} de {gallery.length}
+            </div>
+          </div>
+
+          {gallery.length > 1 ? (
+            <button
+              type="button"
+              onClick={showNext}
+              className="absolute right-4 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-white/10 text-2xl text-white transition hover:bg-white/20 md:right-8"
+              aria-label="Imagen siguiente"
+            >
+              →
+            </button>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   )
 }
