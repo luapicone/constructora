@@ -1,3 +1,28 @@
+const makeId = () => crypto.randomUUID()
+
+const makeProject = ({
+  title,
+  slug,
+  location,
+  image,
+  featured,
+  summary,
+  description,
+  specs,
+  gallery,
+}) => ({
+  id: makeId(),
+  title,
+  slug,
+  location,
+  image,
+  featured,
+  summary,
+  description,
+  specs,
+  gallery,
+})
+
 export const defaultContent = {
   settings: {
     brandName: 'Viviendas Podesta',
@@ -42,49 +67,95 @@ export const defaultContent = {
     contactAddress: 'Av. del Libertador 2040, Buenos Aires',
   },
   stats: [
-    { id: crypto.randomUUID(), value: 40, suffix: '+', label: 'Años de Trayectoria' },
-    { id: crypto.randomUUID(), value: 190, suffix: '+', label: 'Obras Entregadas' },
-    { id: crypto.randomUUID(), value: 400, suffix: ' km', label: 'Radio de Cobertura' },
-    { id: crypto.randomUUID(), value: 100, suffix: '%', label: 'Cumplimiento de Plazos' },
+    { id: makeId(), value: 40, suffix: '+', label: 'Años de Trayectoria' },
+    { id: makeId(), value: 190, suffix: '+', label: 'Obras Entregadas' },
+    { id: makeId(), value: 400, suffix: ' km', label: 'Radio de Cobertura' },
+    { id: makeId(), value: 100, suffix: '%', label: 'Cumplimiento de Plazos' },
   ],
   portfolio: [
-    {
-      id: crypto.randomUUID(),
+    makeProject({
       title: 'Casa Familiar Podestá',
+      slug: 'casa-familiar-podesta',
       location: 'Paraná, Entre Ríos',
       image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80',
       featured: true,
-    },
-    {
-      id: crypto.randomUUID(),
+      summary: 'Una casa contemporánea de líneas limpias, ambientes amplios y fuerte conexión entre interior y exterior.',
+      description:
+        'Proyecto residencial de estilo contemporáneo pensado para una familia que buscaba amplitud, iluminación natural y circulaciones simples. La vivienda combina espacios sociales integrados, un sector privado bien resuelto y una materialidad cálida y duradera. La obra fue desarrollada con foco en confort diario, mantenimiento eficiente y calidad constructiva en todos los detalles.',
+      specs: {
+        squareMeters: '186 m²',
+        rooms: '6 ambientes',
+        bedrooms: '3 cuartos',
+        bathrooms: '2 baños',
+        floors: '2 pisos',
+      },
+      gallery: [
+        'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1400&q=80',
+        'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1200&q=80',
+        'https://images.unsplash.com/photo-1600607687644-c7f34f2a7f0b?w=1200&q=80',
+        'https://images.unsplash.com/photo-1600047509358-9dc75507daeb?w=1200&q=80',
+      ],
+    }),
+    makeProject({
       title: 'Cabaña de Campo',
+      slug: 'cabana-de-campo',
       location: 'Victoria, Entre Ríos',
       image: 'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=900&q=80',
       featured: false,
-    },
-    {
-      id: crypto.randomUUID(),
+      summary: 'Una vivienda de descanso con impronta natural, visuales abiertas y una implantación pensada para el entorno rural.',
+      description:
+        'Esta cabaña fue proyectada para disfrutar del paisaje y resolver estancias prolongadas con el máximo confort. Se priorizó una construcción eficiente, con materiales nobles, galerías amplias y una distribución que permite integrar descanso, estar y exterior con naturalidad.',
+      specs: {
+        squareMeters: '98 m²',
+        rooms: '4 ambientes',
+        bedrooms: '2 cuartos',
+        bathrooms: '1 baño',
+        floors: '1 piso',
+      },
+      gallery: [
+        'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1400&q=80',
+        'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80',
+        'https://images.unsplash.com/photo-1448630360428-65456885c650?w=1200&q=80',
+      ],
+    }),
+    makeProject({
       title: 'Loft Contemporáneo',
+      slug: 'loft-contemporaneo',
       location: 'Santa Fe Capital',
       image: 'https://images.unsplash.com/photo-1600566753052-d70c7b608027?w=900&q=80',
       featured: false,
-    },
+      summary: 'Un loft urbano de estética sobria, espacios flexibles y una identidad moderna para vivir y trabajar.',
+      description:
+        'Diseñado para una vida urbana dinámica, este loft resuelve áreas integradas, doble altura y sectores funcionales con una imagen contemporánea. Se trabajó una distribución abierta, mucha luz natural y terminaciones que combinan calidez con bajo mantenimiento.',
+      specs: {
+        squareMeters: '122 m²',
+        rooms: '5 ambientes',
+        bedrooms: '2 cuartos',
+        bathrooms: '2 baños',
+        floors: '2 pisos',
+      },
+      gallery: [
+        'https://images.unsplash.com/photo-1600566753052-d70c7b608027?w=1400&q=80',
+        'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1200&q=80',
+        'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=1200&q=80',
+      ],
+    }),
   ],
   reasons: [
     {
-      id: crypto.randomUUID(),
+      id: makeId(),
       icon: '🛠️',
       title: 'Experiencia y Trayectoria',
       copy: 'Décadas de trabajo sostenido nos permiten ejecutar obras con criterio técnico, previsión y resultados confiables.',
     },
     {
-      id: crypto.randomUUID(),
+      id: makeId(),
       icon: '🤝',
       title: 'Atención Personalizada',
       copy: 'Cada cliente recibe seguimiento cercano, soluciones a medida y acompañamiento real durante todo el proceso.',
     },
     {
-      id: crypto.randomUUID(),
+      id: makeId(),
       icon: '⭐',
       title: 'Precio y Calidad',
       copy: 'Buscamos el mejor equilibrio entre inversión, terminaciones, confort y durabilidad para cada tipo de vivienda.',
@@ -96,12 +167,26 @@ export function cloneDefaultContent() {
   return JSON.parse(JSON.stringify(defaultContent))
 }
 
+function normalizeProject(project, fallbackProject) {
+  return {
+    ...fallbackProject,
+    ...project,
+    specs: {
+      ...fallbackProject.specs,
+      ...(project?.specs || {}),
+    },
+    gallery: Array.isArray(project?.gallery) && project.gallery.length ? project.gallery : fallbackProject.gallery,
+  }
+}
+
 export function normalizeContent(raw = {}) {
   const fallback = cloneDefaultContent()
   return {
     settings: { ...fallback.settings, ...(raw.settings || {}) },
     stats: Array.isArray(raw.stats) && raw.stats.length ? raw.stats : fallback.stats,
-    portfolio: Array.isArray(raw.portfolio) && raw.portfolio.length ? raw.portfolio : fallback.portfolio,
+    portfolio: Array.isArray(raw.portfolio) && raw.portfolio.length
+      ? raw.portfolio.map((project, index) => normalizeProject(project, fallback.portfolio[Math.min(index, fallback.portfolio.length - 1)] || fallback.portfolio[0]))
+      : fallback.portfolio,
     reasons: Array.isArray(raw.reasons) && raw.reasons.length ? raw.reasons : fallback.reasons,
   }
 }

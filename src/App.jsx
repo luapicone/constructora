@@ -5,6 +5,28 @@ import { isSupabaseConfigured, supabase, SUPABASE_BUCKET } from './supabase'
 const heroVideo = 'https://cdn.pixabay.com/video/2025/01/22/254016_large.mp4'
 const CONTENT_KEYS = ['settings', 'stats', 'portfolio', 'reasons']
 
+const projectSpecLabels = {
+  squareMeters: 'Metros cuadrados',
+  rooms: 'Ambientes',
+  bedrooms: 'Cuartos',
+  bathrooms: 'Baños',
+  floors: 'Pisos',
+}
+
+function slugify(value = '') {
+  return value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
+}
+
+function getHouseSlug() {
+  if (typeof window === 'undefined') return ''
+  return new URLSearchParams(window.location.search).get('house') || ''
+}
+
 function useReveal() {
   useEffect(() => {
     const nodes = document.querySelectorAll('[data-reveal]')
@@ -106,6 +128,7 @@ function PublicSite({ content }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [statsVisible, setStatsVisible] = useState(false)
   const [heroIndex, setHeroIndex] = useState(0)
+  const [selectedHouseSlug, setSelectedHouseSlug] = useState(getHouseSlug())
   const statsRef = useRef(null)
   const { settings, stats, portfolio, reasons } = content
   const heroImages = settings.heroImages?.length ? settings.heroImages : [content.settings.aboutPrimaryImage]
@@ -139,6 +162,38 @@ function PublicSite({ content }) {
     }, 5000)
     return () => window.clearInterval(interval)
   }, [heroImages.length])
+
+  useEffect(() => {
+    const syncHouse = () => setSelectedHouseSlug(getHouseSlug())
+    window.addEventListener('popstate', syncHouse)
+    return () => window.removeEventListener('popstate', syncHouse)
+  }, [])
+
+  const openHouse = (slug) => {
+    const nextUrl = `${window.location.pathname}?house=${slug}`
+    window.history.pushState({}, '', nextUrl)
+    setSelectedHouseSlug(slug)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const closeHouse = () => {
+    const nextUrl = window.location.pathname
+    window.history.pushState({}, '', nextUrl)
+    setSelectedHouseSlug('')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const selectedHouse = portfolio.find((item) => (item.slug || slugify(item.title)) === selectedHouseSlug)
+
+  if (selectedHouse) {
+    return (
+      <HouseDetailPage
+        settings={settings}
+        house={selectedHouse}
+        onBack={closeHouse}
+      />
+    )
+  }
 
   return (
     <div className="bg-cream text-forest">
@@ -305,14 +360,22 @@ function PublicSite({ content }) {
 
             <div className="grid gap-6 md:grid-cols-3 md:grid-rows-2">
               {portfolio.map((item, index) => (
-                <article key={item.id || item.title} data-reveal data-delay={String(index * 0.1)} className={`portfolio-card scale-in group relative overflow-hidden rounded-[1.75rem] ${item.featured ? 'md:row-span-2' : ''}`}>
+                <button
+                  key={item.id || item.title}
+                  type="button"
+                  data-reveal
+                  data-delay={String(index * 0.1)}
+                  onClick={() => openHouse(item.slug || slugify(item.title))}
+                  className={`portfolio-card scale-in group relative overflow-hidden rounded-[1.75rem] text-left ${item.featured ? 'md:row-span-2' : ''}`}
+                >
                   <img src={item.image} alt={item.title} className="portfolio-image h-full min-h-[280px] w-full object-cover transition duration-700" />
                   <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(13,31,14,0.9),transparent_55%)]" />
                   <div className="portfolio-copy absolute inset-x-0 bottom-0 translate-y-4 p-6 text-white opacity-0 transition duration-500">
                     <div className="text-xs font-semibold uppercase tracking-[0.28em] text-accent">{item.location}</div>
                     <h3 className="mt-2 font-heading text-3xl">{item.title}</h3>
+                    {item.summary ? <p className="mt-3 max-w-md text-sm leading-6 text-white/80">{item.summary}</p> : null}
                   </div>
-                </article>
+                </button>
               ))}
             </div>
           </div>
@@ -418,6 +481,78 @@ function AdminField({ label, value, onChange, type = 'text', rows = 3 }) {
   )
 }
 
+function HouseDetailPage({ settings, house, onBack }) {
+  const gallery = house.gallery?.length ? house.gallery : [house.image]
+
+  return (
+    <div className="min-h-screen bg-cream text-forest">
+      <section className="relative overflow-hidden bg-forest px-5 pb-18 pt-8 text-white md:px-8 md:pb-24">
+        <div className="absolute inset-0 opacity-25">
+          <img src={house.image} alt={house.title} className="h-full w-full object-cover" />
+        </div>
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(13,31,14,0.88),rgba(13,31,14,0.95))]" />
+
+        <div className="relative z-10 mx-auto max-w-7xl">
+          <div className="flex flex-wrap items-center justify-between gap-4 pt-4">
+            <button
+              type="button"
+              onClick={onBack}
+              className="rounded-full border border-white/20 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+            >
+              ← Volver a proyectos
+            </button>
+            <div className="font-heading text-2xl text-white md:text-3xl">{settings.brandName}</div>
+          </div>
+
+          <div className="mt-16 max-w-4xl">
+            <div className="text-sm font-semibold uppercase tracking-[0.32em] text-accent">// Proyecto residencial</div>
+            <h1 className="mt-5 font-heading text-5xl leading-tight text-white md:text-7xl">{house.title}</h1>
+            <p className="mt-4 text-lg text-white/70 md:text-xl">{house.location}</p>
+            {house.summary ? <p className="mt-8 max-w-3xl text-lg leading-8 text-white/78">{house.summary}</p> : null}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-cream py-18 md:py-24">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 md:px-8 lg:grid-cols-[1.15fr_0.85fr]">
+          <div className="space-y-6">
+            <div className="grid gap-6 md:grid-cols-2">
+              {gallery.map((image, index) => (
+                <div key={`${image}-${index}`} className={`${index === 0 ? 'md:col-span-2' : ''} overflow-hidden rounded-[1.75rem] bg-white shadow-[0_24px_60px_rgba(13,31,14,0.08)]`}>
+                  <img
+                    src={image}
+                    alt={`${house.title} ${index + 1}`}
+                    className={`w-full object-cover ${index === 0 ? 'h-[440px]' : 'h-[280px]'}`}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <div className="rounded-[1.75rem] bg-white p-8 shadow-[0_24px_60px_rgba(13,31,14,0.08)]">
+              <div className="text-sm font-semibold uppercase tracking-[0.28em] text-midgreen">// Ficha técnica</div>
+              <div className="mt-6 overflow-hidden rounded-[1.25rem] border border-forest/10">
+                {Object.entries(projectSpecLabels).map(([key, label], index) => (
+                  <div key={key} className={`grid grid-cols-2 gap-4 px-5 py-4 ${index !== Object.keys(projectSpecLabels).length - 1 ? 'border-b border-forest/10' : ''}`}>
+                    <div className="text-sm font-semibold uppercase tracking-[0.18em] text-mutedgreen">{label}</div>
+                    <div className="text-right font-heading text-2xl text-forest">{house.specs?.[key] || '-'}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-[1.75rem] bg-white p-8 shadow-[0_24px_60px_rgba(13,31,14,0.08)]">
+              <div className="text-sm font-semibold uppercase tracking-[0.28em] text-midgreen">// Descripción general</div>
+              <p className="mt-6 text-base leading-8 text-mutedgreen md:text-lg">{house.description}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  )
+}
+
 function AdminImageField({ label, value, onChange, onUpload, uploading }) {
   return (
     <div className="space-y-3">
@@ -505,7 +640,8 @@ function AdminPage({ content, setContent, refresh }) {
 
   const handleUpload = async (field, pathPrefix, file, listKey, index) => {
     if (!file) return
-    const uploadKey = typeof index === 'number' ? `${listKey}-${index}-${field}` : field.includes('.') ? field.replace('.', '-') : field
+    const normalizedField = field.includes('.') ? field.replaceAll('.', '-') : field
+    const uploadKey = typeof index === 'number' ? `${listKey}-${index}-${normalizedField}` : normalizedField
     try {
       setUploadingField(uploadKey)
       setStatus('Subiendo imagen...')
@@ -520,6 +656,21 @@ function AdminPage({ content, setContent, refresh }) {
               ...current.settings,
               heroImages: (current.settings.heroImages || []).map((item, idx) => (idx === imageIndex ? url : item)),
             },
+          }
+        } else if (listKey === 'portfolio' && typeof index === 'number' && field.startsWith('gallery.')) {
+          const galleryIndex = Number(field.split('.')[1])
+          nextContent = {
+            ...current,
+            portfolio: current.portfolio.map((item, itemIndex) =>
+              itemIndex === index
+                ? {
+                    ...item,
+                    gallery: (item.gallery || []).map((galleryItem, currentGalleryIndex) =>
+                      currentGalleryIndex === galleryIndex ? url : galleryItem,
+                    ),
+                  }
+                : item,
+            ),
           }
         } else {
           nextContent = typeof index === 'number'
@@ -695,9 +846,25 @@ function AdminPage({ content, setContent, refresh }) {
 
         <AdminListSection
           title="Proyectos / imágenes"
-          onAdd={() => addListItem('portfolio', { title: 'Nuevo proyecto', location: 'Ubicación', image: '', featured: false })}
+          onAdd={() => addListItem('portfolio', {
+            title: 'Nuevo proyecto',
+            slug: 'nuevo-proyecto',
+            location: 'Ubicación',
+            image: '',
+            featured: false,
+            summary: 'Resumen breve del proyecto.',
+            description: 'Descripción general del proyecto.',
+            specs: {
+              squareMeters: '0 m²',
+              rooms: '0 ambientes',
+              bedrooms: '0 cuartos',
+              bathrooms: '0 baños',
+              floors: '1 piso',
+            },
+            gallery: [''],
+          })}
         >
-          <div className="grid gap-4 lg:grid-cols-3">
+          <div className="grid gap-4 lg:grid-cols-2">
             {content.portfolio.map((item, index) => (
               <div key={item.id} className="space-y-3 rounded-2xl border border-forest/10 p-4">
                 <div className="flex justify-between gap-3">
@@ -705,12 +872,59 @@ function AdminPage({ content, setContent, refresh }) {
                   <button className="text-sm font-semibold text-red-600" onClick={() => removeListItem('portfolio', index)}>Eliminar</button>
                 </div>
                 <AdminField label="Título" value={item.title} onChange={(value) => updateListItem('portfolio', index, { title: value })} />
+                <AdminField label="Slug / URL" value={item.slug || ''} onChange={(value) => updateListItem('portfolio', index, { slug: slugify(value) })} />
                 <AdminField label="Ubicación" value={item.location} onChange={(value) => updateListItem('portfolio', index, { location: value })} />
+                <AdminField label="Resumen" value={item.summary || ''} onChange={(value) => updateListItem('portfolio', index, { summary: value })} type="textarea" rows={3} />
+                <AdminField label="Descripción general" value={item.description || ''} onChange={(value) => updateListItem('portfolio', index, { description: value })} type="textarea" rows={5} />
                 <label className="flex items-center gap-3 text-sm font-semibold text-forest">
                   <input type="checkbox" checked={Boolean(item.featured)} onChange={(event) => updateListItem('portfolio', index, { featured: event.target.checked })} />
                   Destacado (ocupa doble alto)
                 </label>
                 <AdminImageField label="Imagen" value={item.image} onChange={(value) => updateListItem('portfolio', index, { image: value })} uploading={uploadingField === `portfolio-${index}-image`} onUpload={(event) => handleUpload('image', `portfolio/${index + 1}`, event.target.files?.[0], 'portfolio', index)} />
+
+                <div className="space-y-3 rounded-2xl bg-cream/60 p-4">
+                  <div className="text-sm font-semibold text-forest">Ficha técnica</div>
+                  {Object.entries(projectSpecLabels).map(([specKey, label]) => (
+                    <AdminField
+                      key={specKey}
+                      label={label}
+                      value={item.specs?.[specKey] || ''}
+                      onChange={(value) => updateListItem('portfolio', index, { specs: { ...(item.specs || {}), [specKey]: value } })}
+                    />
+                  ))}
+                </div>
+
+                <div className="space-y-3 rounded-2xl bg-cream/60 p-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="text-sm font-semibold text-forest">Galería de la casa</div>
+                    <button
+                      className="rounded-full bg-midgreen px-3 py-1.5 text-xs font-semibold text-white"
+                      onClick={() => updateListItem('portfolio', index, { gallery: [...(item.gallery || []), ''] })}
+                    >
+                      Agregar imagen
+                    </button>
+                  </div>
+                  {(item.gallery || []).map((galleryImage, galleryIndex) => (
+                    <div key={`${item.id}-gallery-${galleryIndex}`} className="space-y-3 rounded-2xl border border-forest/10 bg-white p-3">
+                      <div className="flex items-center justify-between gap-3">
+                        <span className="text-xs font-semibold uppercase tracking-[0.18em] text-mutedgreen">Imagen {galleryIndex + 1}</span>
+                        <button
+                          className="text-xs font-semibold text-red-600"
+                          onClick={() => updateListItem('portfolio', index, { gallery: (item.gallery || []).filter((_, imgIndex) => imgIndex !== galleryIndex) })}
+                        >
+                          Eliminar
+                        </button>
+                      </div>
+                      <AdminImageField
+                        label="URL imagen"
+                        value={galleryImage}
+                        onChange={(value) => updateListItem('portfolio', index, { gallery: (item.gallery || []).map((img, imgIndex) => imgIndex === galleryIndex ? value : img) })}
+                        uploading={uploadingField === `portfolio-${index}-gallery-${galleryIndex}`}
+                        onUpload={(event) => handleUpload(`gallery.${galleryIndex}`, `portfolio/${index + 1}/gallery`, event.target.files?.[0], 'portfolio', index)}
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
           </div>

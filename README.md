@@ -26,6 +26,7 @@ La web ahora puede editarse sin tocar código.
 - reemplazar imágenes existentes
 - administrar el carrusel automático del hero
 - agregar, quitar y editar proyectos
+- crear fichas individuales por casa con galería, descripción y datos técnicos
 - agregar, quitar y editar estadísticas
 - agregar, quitar y editar diferenciales
 - actualizar datos de contacto
