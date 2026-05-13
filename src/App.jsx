@@ -196,8 +196,8 @@ function PublicSite({ content }) {
                 <div className="flex items-start gap-4">
                   <span className="pt-1 text-xl text-[#c29b61]">⌖</span>
                   <div>
-                    <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#c29b61] md:text-[12px]">Ubicación</div>
-                    <div className="mt-2 font-heading text-[28px] leading-[1.05] text-white md:text-[34px]">
+                    <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#c29b61] md:text-[11px]">Ubicación</div>
+                    <div className="mt-2 font-heading text-[22px] leading-[1.05] text-white md:text-[28px]">
                       Entre Ríos<br />+ 400 km
                     </div>
                   </div>
@@ -208,8 +208,8 @@ function PublicSite({ content }) {
                 <div className="flex items-start gap-4">
                   <span className="pt-1 text-xl text-[#c29b61]">⌂</span>
                   <div>
-                    <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#c29b61] md:text-[12px]">Diseños</div>
-                    <div className="mt-2 font-heading text-[28px] leading-[1.05] text-white md:text-[34px]">
+                    <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#c29b61] md:text-[11px]">Diseños</div>
+                    <div className="mt-2 font-heading text-[22px] leading-[1.05] text-white md:text-[28px]">
                       Modelos a medida
                     </div>
                     <span className="mt-3 block h-px w-16 bg-[#c29b61]/70" />
