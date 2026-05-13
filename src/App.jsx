@@ -170,36 +170,50 @@ function PublicSite({ content }) {
 
       <main id="top">
         <section className="relative h-screen overflow-hidden">
-          <img src={heroBackground} alt="Paisaje natural" className="absolute inset-0 h-full w-full object-cover" />
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.78)_0%,rgba(0,0,0,0.48)_38%,rgba(0,0,0,0.12)_72%,rgba(0,0,0,0.02)_100%)]" />
-          <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-5 md:px-8 lg:px-12">
-            <div className="max-w-4xl pt-20">
-              <div className="hero-reveal mb-6 flex items-center gap-4" style={{ animationDelay: '0.2s' }}>
-                <span className="h-px w-12 bg-[#c4a470]/60" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.34em] text-[#c9ad7f]">
+          <img src={heroBackground} alt="Paisaje natural" className="absolute inset-0 h-full w-full object-cover object-[68%_center]" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.72)_0%,rgba(0,0,0,0.42)_42%,rgba(0,0,0,0.08)_74%,rgba(0,0,0,0.02)_100%)]" />
+          <div className="relative z-10 mx-auto flex h-full max-w-[1400px] items-center px-6 md:px-12 lg:px-20 xl:px-24">
+            <div className="max-w-5xl pt-16">
+              <div className="hero-reveal mb-8 flex items-center gap-4" style={{ animationDelay: '0.2s' }}>
+                <span className="h-px w-10 bg-[#c29b61]/70" />
+                <span className="text-[12px] font-semibold uppercase tracking-[0.18em] text-[#c29b61] md:text-[14px]">
                   {settings.heroEyebrow}
                 </span>
               </div>
 
-              <h1 className="hero-reveal font-heading text-[clamp(4.6rem,9vw,8.5rem)] leading-[0.88] font-black tracking-tight text-white" style={{ animationDelay: '0.4s' }}>
+              <h1 className="hero-reveal font-heading text-[clamp(4.8rem,10vw,8.75rem)] leading-[0.9] font-black tracking-[-0.03em] text-white" style={{ animationDelay: '0.4s' }}>
                 Viviendas<br />Podesta
               </h1>
 
-              <div className="hero-reveal mt-8 max-w-md" style={{ animationDelay: '0.6s' }}>
-                <span className="mb-5 block h-px w-12 bg-[#c4a470]/60" />
-                <p className="text-sm leading-7 text-[#e8e1d6]/82 md:text-base">
+              <div className="hero-reveal mt-12 max-w-[480px]" style={{ animationDelay: '0.6s' }}>
+                <span className="mb-5 block h-px w-10 bg-[#c29b61]/70" />
+                <p className="text-[15px] leading-7 text-white/80 md:text-[18px] md:leading-[1.65]">
                   {settings.heroDescription}
                 </p>
               </div>
 
-              <div className="hero-reveal mt-8 flex flex-wrap gap-4" style={{ animationDelay: '0.8s' }}>
-                <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-b from-[#d4b789] to-[#a38a5f] px-6 py-3 text-sm font-bold text-black/80 shadow-lg shadow-black/10">
-                  <span className="text-base">⌖</span>
-                  {settings.heroBadgePrimary}
+              <div className="hero-reveal mt-16 flex flex-col gap-6 text-white md:flex-row md:items-start md:gap-8" style={{ animationDelay: '0.8s' }}>
+                <div className="flex items-start gap-4">
+                  <span className="pt-1 text-xl text-[#c29b61]">⌖</span>
+                  <div>
+                    <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#c29b61] md:text-[12px]">Ubicación</div>
+                    <div className="mt-2 font-heading text-[28px] leading-[1.05] text-white md:text-[34px]">
+                      Entre Ríos<br />+ 400 km
+                    </div>
+                  </div>
                 </div>
-                <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/8 px-6 py-3 text-sm font-semibold text-white backdrop-blur-md">
-                  <span className="text-base">⌂</span>
-                  {settings.heroBadgeSecondary}
+
+                <div className="hidden h-16 w-px bg-[#c29b61]/55 md:block" />
+
+                <div className="flex items-start gap-4">
+                  <span className="pt-1 text-xl text-[#c29b61]">⌂</span>
+                  <div>
+                    <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#c29b61] md:text-[12px]">Diseños</div>
+                    <div className="mt-2 font-heading text-[28px] leading-[1.05] text-white md:text-[34px]">
+                      Modelos a medida
+                    </div>
+                    <span className="mt-3 block h-px w-16 bg-[#c29b61]/70" />
+                  </div>
                 </div>
               </div>
             </div>
