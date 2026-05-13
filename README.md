@@ -1,6 +1,6 @@
-# Acreage Farming
+# Acreage Homes
 
-Landing page premium de agricultura construida con React, Vite y Tailwind CSS v4.
+Landing page premium orientada a una constructora de casas, construida con React, Vite y Tailwind CSS v4.
 
 ## Stack
 - React 19
@@ -20,6 +20,6 @@ npm run build
 - Hero full-screen con video de fondo
 - Navbar fija con transición al hacer scroll
 - Barra de estadísticas con contador
-- Secciones About, Services, Portfolio, Event, Blog, Why Choose Us, CTA y Footer
+- Secciones orientadas a constructora: Nosotros, Servicios, Proyectos, Evento, Blog, diferenciales y CTA
 - Animaciones con IntersectionObserver
 - Responsive con menú hamburguesa

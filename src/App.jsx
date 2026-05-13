@@ -3,106 +3,106 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 const heroVideo = 'https://cdn.pixabay.com/video/2025/01/22/254016_large.mp4'
 
 const navLinks = [
-  { label: 'About', href: '#about' },
-  { label: 'Services', href: '#services' },
-  { label: 'Portfolio', href: '#portfolio' },
-  { label: 'Events', href: '#events' },
+  { label: 'Nosotros', href: '#about' },
+  { label: 'Servicios', href: '#services' },
+  { label: 'Proyectos', href: '#portfolio' },
+  { label: 'Eventos', href: '#events' },
   { label: 'Blog', href: '#blog' },
 ]
 
 const stats = [
-  { value: 40, suffix: '+', label: 'Harvesting Legacy' },
-  { value: 190, suffix: '+', label: 'Topographies' },
-  { value: 126000, suffix: '+', label: 'Farmer Partners' },
-  { value: 14, prefix: '$', suffix: ' Billion', label: 'Agricultural Output' },
+  { value: 40, suffix: '+', label: 'Años Construyendo' },
+  { value: 190, suffix: '+', label: 'Obras Entregadas' },
+  { value: 1260, suffix: '+', label: 'Familias Acompañadas' },
+  { value: 14, prefix: 'USD ', suffix: ' M', label: 'Inversión Ejecutada' },
 ]
 
 const services = [
   {
-    tag: 'Strategy',
-    title: 'Crop Consulting',
-    image: 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=600&q=80',
-    copy: 'Seasonal planning, soil diagnostics, and crop rotation strategies shaped around long-term resilience.',
+    tag: 'Diseño',
+    title: 'Proyectos a Medida',
+    image: 'https://images.unsplash.com/photo-1511818966892-d7d671e672a2?w=800&q=80',
+    copy: 'Diseñamos casas funcionales, luminosas y pensadas para tu estilo de vida, desde la idea inicial hasta los planos ejecutivos.',
   },
   {
-    tag: 'Operations',
-    title: 'Field Management',
-    image: 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?w=600&q=80',
-    copy: 'Hands-on coordination for irrigation, workforce deployment, and precision workflows across diverse terrain.',
+    tag: 'Obra',
+    title: 'Construcción Integral',
+    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80',
+    copy: 'Coordinamos estructura, instalaciones, terminaciones y cronograma con un único equipo responsable de toda la obra.',
   },
   {
-    tag: 'Insights',
-    title: 'Yield Analysis',
-    image: 'https://images.unsplash.com/photo-1472141521881-95d0e87e2e76?w=600&q=80',
-    copy: 'Actionable reporting that translates field data into smarter planting decisions and stronger harvest margins.',
+    tag: 'Entrega',
+    title: 'Llave en Mano',
+    image: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80',
+    copy: 'Entregamos viviendas listas para habitar con seguimiento técnico, control de calidad y documentación completa.',
   },
 ]
 
 const portfolio = [
   {
-    title: 'Patagonia Regenerative Estate',
-    location: 'Río Negro, Argentina',
-    image: 'https://images.unsplash.com/photo-1560493676-04071c5f467b?w=800&q=80',
+    title: 'Casa Patio Norte',
+    location: 'Nordelta, Buenos Aires',
+    image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80',
     className: 'md:row-span-2',
   },
   {
-    title: 'Andean Terrace Renewal',
-    location: 'Mendoza, Argentina',
-    image: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&q=80',
+    title: 'Residencia Horizonte',
+    location: 'Pilar, Buenos Aires',
+    image: 'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=900&q=80',
   },
   {
-    title: 'Organic Valley Expansion',
-    location: 'Salta, Argentina',
-    image: 'https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=600&q=80',
+    title: 'Casa Bosque Claro',
+    location: 'Canning, Buenos Aires',
+    image: 'https://images.unsplash.com/photo-1600566753052-d70c7b608027?w=900&q=80',
   },
 ]
 
 const blogPosts = [
   {
-    category: 'Stewardship',
-    title: 'Nurturing the Land for Future Generations',
-    excerpt: 'A closer look at regenerative practices that rebuild soil health while protecting long-term productivity.',
-    date: 'May 12, 2026',
-    image: 'https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?w=600&q=80',
+    category: 'Planificación',
+    title: 'Qué definir antes de empezar a construir tu casa',
+    excerpt: 'Terreno, programa, presupuesto y tiempos: los cuatro pilares que ordenan una obra residencial desde el primer día.',
+    date: '13 May 2026',
+    image: 'https://images.unsplash.com/photo-1494526585095-c41746248156?w=900&q=80',
   },
   {
-    category: 'Organic Farming',
-    title: "The Journey to Organic: A Farmer's Perspective",
-    excerpt: 'From certification hurdles to premium crop quality, discover what transition looks like in the real world.',
-    date: 'May 08, 2026',
-    image: 'https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=600&q=80',
+    category: 'Materiales',
+    title: 'Cómo elegir materiales durables sin resignar diseño',
+    excerpt: 'Una guía práctica para combinar estética, mantenimiento y rendimiento en exteriores, interiores y cubiertas.',
+    date: '09 May 2026',
+    image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=900&q=80',
   },
   {
-    category: 'Innovation',
-    title: 'AgroTech Innovations Revolutionizing Modern Farming',
-    excerpt: 'Sensors, forecasting, and data platforms are reshaping how farms react to climate and market volatility.',
-    date: 'Apr 29, 2026',
-    image: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=600&q=80',
+    category: 'Arquitectura',
+    title: 'Tendencias en casas contemporáneas para 2026',
+    excerpt: 'Espacios integrados, luz natural, eficiencia térmica y layouts flexibles dominan la nueva vivienda premium.',
+    date: '30 Apr 2026',
+    image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=900&q=80',
   },
   {
-    category: 'Leadership',
-    title: 'Breaking Stereotypes, Cultivating Success',
-    excerpt: 'Meet the modern agricultural leaders building more inclusive and profitable operations from the ground up.',
-    date: 'Apr 18, 2026',
-    image: 'https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?w=600&q=80',
+    category: 'Proceso',
+    title: 'Obra llave en mano: ventajas reales para una familia',
+    excerpt: 'Menos desvíos, un solo interlocutor y mayor previsibilidad financiera en cada etapa del proyecto.',
+    date: '21 Apr 2026',
+    image: 'https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=900&q=80',
   },
 ]
 
 const reasons = [
   {
-    icon: '🌿',
-    title: 'Quality Assurance',
-    copy: 'ISO-aligned controls, rigorous field checks, and audited supply standards keep every deliverable dependable.',
+    icon: '🏡',
+    title: 'Calidad Constructiva',
+    copy: 'Trabajamos con procesos estandarizados, dirección técnica y controles en cada rubro para asegurar una obra sólida y precisa.',
   },
   {
-    icon: '♻️',
-    title: 'Sustainability Focus',
-    copy: 'We are building toward carbon-neutral farming by 2030 through smarter inputs, water stewardship, and cleaner logistics.',
+    icon: '📐',
+    title: 'Diseño con Propósito',
+    copy: 'Cada vivienda se proyecta para responder al terreno, la orientación solar, la vida cotidiana y el presupuesto real.',
   },
   {
-    icon: '👤',
-    title: 'Expert Guidance',
-    copy: 'More than four decades of agricultural expertise inform each recommendation, from planning to post-harvest performance.',
+    icon: '🤝',
+    title: 'Acompañamiento Real',
+    copy: 'Mantenemos comunicación clara, seguimiento constante y decisiones transparentes desde el anteproyecto hasta la entrega.',
   },
 ]
 
@@ -157,9 +157,9 @@ function Counter({ value, prefix = '', suffix = '', label, start }) {
   }, [count, prefix, suffix, value])
 
   return (
-    <div className="border-b border-white/10 px-6 py-8 text-center md:border-b-0 md:border-r md:last:border-r-0 border-r-white/10">
+    <div className="border-b border-white/10 px-6 py-8 text-center border-r-white/10 md:border-b-0 md:border-r md:last:border-r-0">
       <div className="font-heading text-4xl text-accent md:text-5xl">{formatted}</div>
-      <div className="mt-3 text-xs font-semibold tracking-[0.28em] text-white/70 uppercase">{label}</div>
+      <div className="mt-3 text-xs font-semibold uppercase tracking-[0.28em] text-white/70">{label}</div>
     </div>
   )
 }
@@ -198,22 +198,30 @@ export default function App() {
     <div className="bg-cream text-forest">
       <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${scrolled ? 'nav-glass py-3' : 'bg-transparent py-5 backdrop-blur-md'}`}>
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 md:px-8">
-          <a href="#top" className="font-heading text-2xl text-white md:text-3xl">Acreage Farming</a>
+          <a href="#top" className="font-heading text-2xl text-white md:text-3xl">Acreage Homes</a>
           <nav className="hidden items-center gap-8 text-sm font-medium text-white/85 md:flex">
-            {navLinks.map((link) => <a key={link.label} href={link.href} className="transition hover:text-accent">{link.label}</a>)}
+            {navLinks.map((link) => (
+              <a key={link.label} href={link.href} className="transition hover:text-accent">{link.label}</a>
+            ))}
           </nav>
           <div className="hidden md:block">
-            <a href="#cta" className="rounded-full bg-midgreen px-5 py-3 text-sm font-semibold text-white transition hover:bg-accent hover:text-forest">Get Started</a>
+            <a href="#cta" className="rounded-full bg-midgreen px-5 py-3 text-sm font-semibold text-white transition hover:bg-accent hover:text-forest">Solicitar proyecto</a>
           </div>
-          <button className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 text-white md:hidden" onClick={() => setMenuOpen((v) => !v)} aria-label="Toggle menu">
+          <button
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 text-white md:hidden"
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-label="Toggle menu"
+          >
             <span className="text-xl">☰</span>
           </button>
         </div>
         {menuOpen && (
           <div className="mx-4 mt-4 rounded-3xl border border-white/10 bg-forest/95 p-5 text-white shadow-2xl md:hidden">
             <div className="flex flex-col gap-4 text-sm">
-              {navLinks.map((link) => <a key={link.label} href={link.href} onClick={() => setMenuOpen(false)}>{link.label}</a>)}
-              <a href="#cta" onClick={() => setMenuOpen(false)} className="mt-2 rounded-full bg-accent px-5 py-3 text-center font-semibold text-forest">Get Started</a>
+              {navLinks.map((link) => (
+                <a key={link.label} href={link.href} onClick={() => setMenuOpen(false)}>{link.label}</a>
+              ))}
+              <a href="#cta" onClick={() => setMenuOpen(false)} className="mt-2 rounded-full bg-accent px-5 py-3 text-center font-semibold text-forest">Solicitar proyecto</a>
             </div>
           </div>
         )}
@@ -227,14 +235,20 @@ export default function App() {
           <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(13,31,14,0.95)_0%,rgba(13,31,14,0.35)_60%,transparent_100%)]" />
           <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-5 pb-16 pt-28 md:px-8 md:pb-24 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl pb-10 lg:pb-0">
-              <div className="hero-reveal mb-5 text-sm font-semibold tracking-[0.34em] text-accent uppercase" style={{ animationDelay: '0.2s' }}>// Roots in Sustainability</div>
-              <h1 className="hero-reveal max-w-4xl font-heading text-[clamp(5rem,10vw,9rem)] leading-[0.88] font-black text-white" style={{ animationDelay: '0.4s' }}>Acreage Farming</h1>
+              <div className="hero-reveal mb-5 text-sm font-semibold uppercase tracking-[0.34em] text-accent" style={{ animationDelay: '0.2s' }}>
+                // Construcción residencial premium
+              </div>
+              <h1 className="hero-reveal max-w-4xl font-heading text-[clamp(5rem,10vw,9rem)] leading-[0.88] font-black text-white" style={{ animationDelay: '0.4s' }}>
+                Casas pensadas para vivir mejor
+              </h1>
             </div>
             <div className="max-w-xl lg:pb-6">
-              <p className="hero-reveal text-lg leading-8 text-white/75 md:text-xl" style={{ animationDelay: '0.6s' }}>We design sustainable agricultural systems that balance crop performance, soil regeneration, and long-term profitability for ambitious growers.</p>
+              <p className="hero-reveal text-lg leading-8 text-white/75 md:text-xl" style={{ animationDelay: '0.6s' }}>
+                Diseñamos y construimos viviendas contemporáneas con procesos claros, materiales durables y una ejecución cuidada de principio a fin.
+              </p>
               <div className="hero-reveal mt-8 flex flex-wrap gap-4" style={{ animationDelay: '0.8s' }}>
-                <div className="rounded-full bg-gold px-5 py-3 text-sm font-bold text-forest shadow-lg shadow-gold/20">$14 Billion</div>
-                <div className="rounded-full border border-white/15 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur-md">126,000+</div>
+                <div className="rounded-full bg-gold px-5 py-3 text-sm font-bold text-forest shadow-lg shadow-gold/20">40+ años</div>
+                <div className="rounded-full border border-white/15 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur-md">190 obras</div>
               </div>
             </div>
           </div>
@@ -250,14 +264,17 @@ export default function App() {
         <section id="about" className="bg-cream py-22 md:py-28">
           <div className="mx-auto grid max-w-7xl items-center gap-14 px-5 md:px-8 lg:grid-cols-2">
             <div data-reveal className="fade-left relative mx-auto w-full max-w-xl">
-              <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&q=80" alt="Farmland landscape" className="h-[520px] w-full rounded-[2rem] object-cover shadow-[0_30px_80px_rgba(13,31,14,0.12)]" />
-              <img src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400&q=80" alt="Farmer at work" className="absolute -bottom-10 right-0 h-56 w-44 rounded-[1.5rem] border-[6px] border-cream object-cover shadow-2xl md:right-[-28px]" />
+              <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1000&q=80" alt="Casa contemporánea" className="h-[520px] w-full rounded-[2rem] object-cover shadow-[0_30px_80px_rgba(13,31,14,0.12)]" />
+              <img src="https://images.unsplash.com/photo-1600607687644-c7f34f2a7f0b?w=500&q=80" alt="Interior de casa" className="absolute -bottom-10 right-0 h-56 w-44 rounded-[1.5rem] border-[6px] border-cream object-cover shadow-2xl md:right-[-28px]" />
             </div>
+
             <div data-reveal data-delay="0.15" className="fade-right">
-              <div className="text-sm font-semibold tracking-[0.32em] text-midgreen uppercase">// Harvesting Legacy</div>
-              <h2 className="mt-5 max-w-xl font-heading text-4xl leading-tight text-forest md:text-6xl">Rooted in Tradition, Growing for the Future</h2>
-              <p className="mt-6 max-w-xl text-lg leading-8 text-mutedgreen">Acreage Farming partners with landowners, producers, and agribusiness teams to build resilient operations grounded in science, stewardship, and a deep respect for the rhythm of the land.</p>
-              <a href="#services" className="mt-8 inline-flex rounded-full bg-forest px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-midgreen">Explore Our Story →</a>
+              <div className="text-sm font-semibold uppercase tracking-[0.32em] text-midgreen">// Sobre nosotros</div>
+              <h2 className="mt-5 max-w-xl font-heading text-4xl leading-tight text-forest md:text-6xl">Construimos hogares con diseño, técnica y confianza</h2>
+              <p className="mt-6 max-w-xl text-lg leading-8 text-mutedgreen">
+                Somos una constructora enfocada en casas unifamiliares y desarrollos residenciales de escala cuidada. Integramos arquitectura, dirección de obra y ejecución para transformar ideas en espacios reales, habitables y duraderos.
+              </p>
+              <a href="#services" className="mt-8 inline-flex rounded-full bg-forest px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-midgreen">Conocer el proceso →</a>
             </div>
           </div>
         </section>
@@ -266,18 +283,21 @@ export default function App() {
           <div className="mx-auto max-w-7xl px-5 md:px-8">
             <div className="mb-12 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
               <div data-reveal className="fade-up">
-                <div className="text-sm font-semibold tracking-[0.32em] text-midgreen uppercase">// What We Do</div>
-                <h2 className="mt-4 font-heading text-4xl text-forest md:text-6xl">Purpose-built services for modern agriculture</h2>
+                <div className="text-sm font-semibold uppercase tracking-[0.32em] text-midgreen">// Qué hacemos</div>
+                <h2 className="mt-4 font-heading text-4xl text-forest md:text-6xl">Servicios para construir tu casa de punta a punta</h2>
               </div>
-              <a data-reveal data-delay="0.1" href="#" className="fade-up text-sm font-semibold text-midgreen transition hover:text-forest">All Services →</a>
+              <a data-reveal data-delay="0.1" href="#portfolio" className="fade-up text-sm font-semibold text-midgreen transition hover:text-forest">Ver proyectos →</a>
             </div>
+
             <div className="grid gap-7 md:grid-cols-3">
               {services.map((service, index) => (
                 <article key={service.title} data-reveal data-delay={String(index * 0.1)} className="service-card scale-in group relative overflow-hidden rounded-[1.75rem]">
-                  <div className="aspect-[3/4] overflow-hidden"><img src={service.image} alt={service.title} className="service-image h-full w-full object-cover transition duration-700" /></div>
+                  <div className="aspect-[3/4] overflow-hidden">
+                    <img src={service.image} alt={service.title} className="service-image h-full w-full object-cover transition duration-700" />
+                  </div>
                   <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(13,31,14,0.92)_0%,rgba(13,31,14,0.08)_60%,transparent_100%)]" />
                   <div className="absolute inset-x-0 bottom-0 p-6 text-white">
-                    <div className="mb-3 inline-flex rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-semibold tracking-[0.26em] uppercase backdrop-blur-sm">{service.tag}</div>
+                    <div className="mb-3 inline-flex rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.26em] backdrop-blur-sm">{service.tag}</div>
                     <h3 className="font-heading text-3xl">{service.title}</h3>
                     <p className="service-copy mt-3 max-w-xs translate-y-3 text-sm leading-7 text-white/75 opacity-0 transition duration-500">{service.copy}</p>
                   </div>
@@ -288,12 +308,14 @@ export default function App() {
         </section>
 
         <section className="relative h-[60vh] min-h-[420px] overflow-hidden">
-          <video autoPlay muted loop playsInline className="absolute inset-0 h-full w-full object-cover"><source src={heroVideo} type="video/mp4" /></video>
+          <video autoPlay muted loop playsInline className="absolute inset-0 h-full w-full object-cover">
+            <source src={heroVideo} type="video/mp4" />
+          </video>
           <div className="absolute inset-0 bg-[rgba(13,31,14,0.65)]" />
           <div className="relative z-10 flex h-full items-center justify-center px-5 text-center md:px-8">
             <div data-reveal className="fade-up max-w-4xl text-white">
-              <blockquote className="font-heading text-4xl italic leading-tight md:text-6xl">Farming is not just work — it is a way of life.</blockquote>
-              <div className="mt-6 text-sm font-semibold tracking-[0.3em] text-accent uppercase">// Acreage Farming Philosophy</div>
+              <blockquote className="font-heading text-4xl italic leading-tight md:text-6xl">Una casa bien construida no solo se ve bien: mejora la vida todos los días.</blockquote>
+              <div className="mt-6 text-sm font-semibold uppercase tracking-[0.3em] text-accent">// Filosofía Acreage Homes</div>
             </div>
           </div>
         </section>
@@ -301,15 +323,22 @@ export default function App() {
         <section id="portfolio" className="bg-[#e8e0d0] py-22 md:py-28">
           <div className="mx-auto max-w-7xl px-5 md:px-8">
             <div className="mb-12 grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
-              <div data-reveal className="fade-up"><div className="text-sm font-semibold tracking-[0.32em] text-midgreen uppercase">// Featured Work</div><h2 className="mt-4 font-heading text-4xl text-forest md:text-6xl">Portfolio</h2></div>
-              <div data-reveal data-delay="0.1" className="fade-up font-heading text-5xl text-forest/15 md:text-7xl">//2023</div>
+              <div data-reveal className="fade-up">
+                <div className="text-sm font-semibold uppercase tracking-[0.32em] text-midgreen">// Obras destacadas</div>
+                <h2 className="mt-4 font-heading text-4xl text-forest md:text-6xl">Proyectos</h2>
+              </div>
+              <div data-reveal data-delay="0.1" className="fade-up font-heading text-5xl text-forest/15 md:text-7xl">//2026</div>
             </div>
+
             <div className="grid gap-6 md:grid-cols-3 md:grid-rows-2">
               {portfolio.map((item, index) => (
                 <article key={item.title} data-reveal data-delay={String(index * 0.1)} className={`portfolio-card scale-in group relative overflow-hidden rounded-[1.75rem] ${item.className ?? ''}`}>
                   <img src={item.image} alt={item.title} className="portfolio-image h-full min-h-[280px] w-full object-cover transition duration-700" />
                   <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(13,31,14,0.9),transparent_55%)]" />
-                  <div className="portfolio-copy absolute inset-x-0 bottom-0 translate-y-4 p-6 text-white opacity-0 transition duration-500"><div className="text-xs font-semibold tracking-[0.28em] text-accent uppercase">{item.location}</div><h3 className="mt-2 font-heading text-3xl">{item.title}</h3></div>
+                  <div className="portfolio-copy absolute inset-x-0 bottom-0 translate-y-4 p-6 text-white opacity-0 transition duration-500">
+                    <div className="text-xs font-semibold uppercase tracking-[0.28em] text-accent">{item.location}</div>
+                    <h3 className="mt-2 font-heading text-3xl">{item.title}</h3>
+                  </div>
                 </article>
               ))}
             </div>
@@ -320,13 +349,13 @@ export default function App() {
           <div className="mx-auto max-w-7xl px-5 md:px-8">
             <div data-reveal className="fade-up overflow-hidden rounded-[1.1rem] shadow-[0_30px_60px_rgba(13,31,14,0.08)]">
               <div className="grid md:grid-cols-2">
-                <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&q=80" alt="Agriculture event" className="h-full min-h-[320px] w-full object-cover" />
+                <img src="https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=1000&q=80" alt="Evento de arquitectura" className="h-full min-h-[320px] w-full object-cover" />
                 <div className="bg-forest p-8 text-white md:p-12">
-                  <div className="text-sm font-semibold tracking-[0.3em] text-accent uppercase">// Event</div>
-                  <div className="mt-5 inline-flex rounded-full border border-accent/25 bg-accent/10 px-4 py-2 text-sm font-semibold text-accent">Jan 2024</div>
-                  <h3 className="mt-6 max-w-xl font-heading text-4xl leading-tight md:text-5xl">The Sustainable Agriculture Innovation and Practices Symposium</h3>
-                  <p className="mt-5 max-w-lg text-lg leading-8 text-white/68">Buenos Aires Convention Center · 700 seats · A gathering of growers, agronomists, and innovators shaping the next era of responsible farming.</p>
-                  <a href="#" className="mt-8 inline-flex rounded-full bg-midgreen px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-accent hover:text-forest">Register Now →</a>
+                  <div className="text-sm font-semibold uppercase tracking-[0.3em] text-accent">// Evento</div>
+                  <div className="mt-5 inline-flex rounded-full border border-accent/25 bg-accent/10 px-4 py-2 text-sm font-semibold text-accent">Jun 2026</div>
+                  <h3 className="mt-6 max-w-xl font-heading text-4xl leading-tight md:text-5xl">Jornada de diseño residencial, materiales y construcción eficiente</h3>
+                  <p className="mt-5 max-w-lg text-lg leading-8 text-white/68">Showroom Palermo · 120 asistentes · Una experiencia para recorrer tendencias, sistemas constructivos y soluciones para viviendas contemporáneas.</p>
+                  <a href="#cta" className="mt-8 inline-flex rounded-full bg-midgreen px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-accent hover:text-forest">Reservar lugar →</a>
                 </div>
               </div>
             </div>
@@ -336,18 +365,27 @@ export default function App() {
         <section id="blog" className="bg-cream py-22 md:py-28">
           <div className="mx-auto max-w-7xl px-5 md:px-8">
             <div className="mb-12 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-              <div data-reveal className="fade-up"><div className="text-sm font-semibold tracking-[0.32em] text-midgreen uppercase">// Journal</div><h2 className="mt-4 font-heading text-4xl text-forest md:text-6xl">Our Blog</h2></div>
-              <a data-reveal data-delay="0.1" href="#" className="fade-up text-sm font-semibold text-midgreen transition hover:text-forest">View All →</a>
+              <div data-reveal className="fade-up">
+                <div className="text-sm font-semibold uppercase tracking-[0.32em] text-midgreen">// Ideas y guía</div>
+                <h2 className="mt-4 font-heading text-4xl text-forest md:text-6xl">Nuestro blog</h2>
+              </div>
+              <a data-reveal data-delay="0.1" href="#" className="fade-up text-sm font-semibold text-midgreen transition hover:text-forest">Ver todo →</a>
             </div>
+
             <div className="grid gap-6 md:grid-cols-2">
               {blogPosts.map((post, index) => (
                 <article key={post.title} data-reveal data-delay={String(index * 0.08)} className="blog-card scale-in overflow-hidden rounded-[1.5rem] bg-white shadow-[0_20px_50px_rgba(13,31,14,0.05)] transition hover:-translate-y-1 hover:shadow-[0_26px_60px_rgba(13,31,14,0.12)]">
-                  <div className="overflow-hidden"><img src={post.image} alt={post.title} className="blog-image h-64 w-full object-cover transition duration-700" /></div>
+                  <div className="overflow-hidden">
+                    <img src={post.image} alt={post.title} className="blog-image h-64 w-full object-cover transition duration-700" />
+                  </div>
                   <div className="p-7">
-                    <div className="text-xs font-semibold tracking-[0.28em] text-midgreen uppercase">{post.category}</div>
+                    <div className="text-xs font-semibold uppercase tracking-[0.28em] text-midgreen">{post.category}</div>
                     <h3 className="mt-4 font-heading text-3xl leading-tight text-forest">{post.title}</h3>
                     <p className="mt-4 text-base leading-7 text-mutedgreen">{post.excerpt}</p>
-                    <div className="mt-6 flex items-center justify-between gap-4 border-t border-forest/8 pt-5 text-sm font-medium text-mutedgreen"><span>{post.date}</span><span className="font-semibold text-midgreen">Learn More →</span></div>
+                    <div className="mt-6 flex items-center justify-between gap-4 border-t border-forest/8 pt-5 text-sm font-medium text-mutedgreen">
+                      <span>{post.date}</span>
+                      <span className="font-semibold text-midgreen">Leer más →</span>
+                    </div>
                   </div>
                 </article>
               ))}
@@ -357,7 +395,10 @@ export default function App() {
 
         <section className="bg-forest py-22 text-white md:py-28">
           <div className="mx-auto max-w-7xl px-5 text-center md:px-8">
-            <div data-reveal className="fade-up mx-auto max-w-4xl"><h2 className="font-heading text-4xl leading-tight md:text-6xl">Why Choose Acreage Farming for Your Agricultural Journey?</h2></div>
+            <div data-reveal className="fade-up mx-auto max-w-4xl">
+              <h2 className="font-heading text-4xl leading-tight md:text-6xl">Por qué elegir Acreage Homes para construir tu próxima casa</h2>
+            </div>
+
             <div className="mt-14 grid gap-6 md:grid-cols-3">
               {reasons.map((reason, index) => (
                 <article key={reason.title} data-reveal data-delay={String(index * 0.1)} className="scale-in rounded-[1.6rem] border border-accent/20 bg-white/5 p-8 text-left backdrop-blur-md transition hover:-translate-y-2 hover:border-accent/55 hover:shadow-[0_0_30px_rgba(125,196,127,0.12)]">
@@ -371,18 +412,21 @@ export default function App() {
         </section>
 
         <section id="cta" className="relative overflow-hidden bg-forest py-24 text-white md:py-32">
-          <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1920&q=80" alt="Agricultural landscape" className="absolute inset-0 h-full w-full object-cover opacity-20" />
+          <img src="https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=1600&q=80" alt="Proyecto residencial" className="absolute inset-0 h-full w-full object-cover opacity-20" />
           <div className="leaf left-[12%] top-[58%] h-5 w-5" style={{ animationDuration: '12s' }} />
           <div className="leaf left-[28%] top-[78%] h-7 w-7" style={{ animationDuration: '14s' }} />
           <div className="leaf right-[20%] top-[65%] h-4 w-4" style={{ animationDuration: '11s' }} />
           <div className="leaf right-[10%] top-[78%] h-6 w-6" style={{ animationDuration: '13s' }} />
+
           <div className="relative z-10 mx-auto max-w-4xl px-5 text-center md:px-8">
             <div data-reveal className="fade-up">
-              <h2 className="font-heading text-4xl leading-tight md:text-7xl">Join the Agricultural <span className="italic text-accent">Revolution</span></h2>
-              <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/72">Partner with a team that brings refined strategy, measurable performance, and sustainable thinking to every acre under management.</p>
+              <h2 className="font-heading text-4xl leading-tight md:text-7xl">Empezá a construir tu <span className="italic text-accent">próximo hogar</span></h2>
+              <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/72">
+                Contanos tu idea, el terreno y el tipo de casa que imaginás. Te ayudamos a convertirlo en un proyecto concreto, claro y construible.
+              </p>
               <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
-                <a href="#top" className="rounded-full bg-accent px-7 py-4 text-sm font-semibold text-forest transition hover:bg-white">Get Started</a>
-                <a href="#about" className="rounded-full border border-white/35 px-7 py-4 text-sm font-semibold text-white transition hover:border-accent hover:text-accent">Learn More</a>
+                <a href="#top" className="rounded-full bg-accent px-7 py-4 text-sm font-semibold text-forest transition hover:bg-white">Solicitar proyecto</a>
+                <a href="#about" className="rounded-full border border-white/35 px-7 py-4 text-sm font-semibold text-white transition hover:border-accent hover:text-accent">Conocer más</a>
               </div>
             </div>
           </div>
@@ -392,15 +436,47 @@ export default function App() {
       <footer className="border-t border-accent/30 bg-forest text-white">
         <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 md:px-8 lg:grid-cols-[2fr_1fr_1fr_1fr]">
           <div>
-            <a href="#top" className="font-heading text-4xl">Acreage Farming</a>
-            <p className="mt-4 max-w-md text-base leading-7 text-white/68">Premium agricultural consulting and field strategy for producers pursuing sustainable growth, resilient operations, and lasting impact.</p>
+            <a href="#top" className="font-heading text-4xl">Acreage Homes</a>
+            <p className="mt-4 max-w-md text-base leading-7 text-white/68">
+              Constructora de casas enfocada en diseño residencial, ejecución integral y entregas con calidad real.
+            </p>
             <div className="mt-6 flex gap-3 text-lg text-accent"><span>○</span><span>◐</span><span>◇</span></div>
           </div>
-          <div><div className="text-sm font-semibold tracking-[0.3em] text-accent uppercase">Company</div><div className="mt-5 flex flex-col gap-3 text-white/70"><a href="#about">About</a><a href="#services">Services</a><a href="#portfolio">Portfolio</a><a href="#">Careers</a></div></div>
-          <div><div className="text-sm font-semibold tracking-[0.3em] text-accent uppercase">Resources</div><div className="mt-5 flex flex-col gap-3 text-white/70"><a href="#blog">Blog</a><a href="#events">Events</a><a href="#portfolio">Case Studies</a><a href="#">FAQ</a></div></div>
-          <div><div className="text-sm font-semibold tracking-[0.3em] text-accent uppercase">Contact</div><div className="mt-5 space-y-3 text-white/70"><p>hello@acreagefarming.com</p><p>+54 11 5555 0186</p><p>Av. del Libertador 2040, Buenos Aires</p></div></div>
+
+          <div>
+            <div className="text-sm font-semibold uppercase tracking-[0.3em] text-accent">Empresa</div>
+            <div className="mt-5 flex flex-col gap-3 text-white/70">
+              <a href="#about">Nosotros</a>
+              <a href="#services">Servicios</a>
+              <a href="#portfolio">Proyectos</a>
+              <a href="#">Carreras</a>
+            </div>
+          </div>
+
+          <div>
+            <div className="text-sm font-semibold uppercase tracking-[0.3em] text-accent">Recursos</div>
+            <div className="mt-5 flex flex-col gap-3 text-white/70">
+              <a href="#blog">Blog</a>
+              <a href="#events">Eventos</a>
+              <a href="#portfolio">Casos</a>
+              <a href="#">FAQ</a>
+            </div>
+          </div>
+
+          <div>
+            <div className="text-sm font-semibold uppercase tracking-[0.3em] text-accent">Contacto</div>
+            <div className="mt-5 space-y-3 text-white/70">
+              <p>hola@acreagehomes.com</p>
+              <p>+54 11 5555 0186</p>
+              <p>Av. del Libertador 2040, Buenos Aires</p>
+            </div>
+          </div>
         </div>
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 border-t border-white/10 px-5 py-6 text-sm text-white/55 md:px-8 md:flex-row md:items-center md:justify-between"><p>© 2026 Acreage Farming. All rights reserved.</p><div className="font-heading text-3xl text-white/8 md:text-5xl">Acreage Farming</div></div>
+
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 border-t border-white/10 px-5 py-6 text-sm text-white/55 md:flex-row md:items-center md:justify-between md:px-8">
+          <p>© 2026 Acreage Homes. All rights reserved.</p>
+          <div className="font-heading text-3xl text-white/8 md:text-5xl">Acreage Homes</div>
+        </div>
       </footer>
     </div>
   )
