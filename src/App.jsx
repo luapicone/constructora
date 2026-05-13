@@ -382,18 +382,38 @@ function PublicSite({ content }) {
           </div>
         </section>
 
-        <section className="bg-forest py-22 text-white md:py-28">
-          <div className="mx-auto max-w-7xl px-5 text-center md:px-8">
-            <div data-reveal className="fade-up mx-auto max-w-4xl">
-              <h2 className="font-heading text-4xl leading-tight md:text-6xl">{settings.reasonsTitle}</h2>
+        <section className="bg-[#efe7da] py-22 md:py-30">
+          <div className="mx-auto max-w-7xl px-5 md:px-8">
+            <div data-reveal className="fade-up mx-auto max-w-4xl text-center">
+              <div className="mx-auto flex w-fit items-center gap-4 text-[#b89462]">
+                <span className="h-px w-10 bg-[#b89462]/70" />
+                <span className="text-xs font-semibold uppercase tracking-[0.28em]">Por qué elegirnos</span>
+                <span className="h-px w-10 bg-[#b89462]/70" />
+              </div>
+              <h2 className="mt-6 font-heading text-4xl leading-tight text-forest md:text-6xl">{settings.reasonsTitle}</h2>
             </div>
 
-            <div className="mt-14 grid gap-6 md:grid-cols-3">
+            <div className="mt-14 grid gap-6 lg:grid-cols-3">
               {reasons.map((reason, index) => (
-                <article key={reason.id || reason.title} data-reveal data-delay={String(index * 0.1)} className="scale-in rounded-[1.6rem] border border-accent/20 bg-white/5 p-8 text-left backdrop-blur-md transition hover:-translate-y-2 hover:border-accent/55 hover:shadow-[0_0_30px_rgba(125,196,127,0.12)]">
-                  <div className="text-3xl">{reason.icon}</div>
-                  <h3 className="mt-5 font-heading text-3xl">{reason.title}</h3>
-                  <p className="mt-4 text-base leading-7 text-white/72">{reason.copy}</p>
+                <article
+                  key={reason.id || reason.title}
+                  data-reveal
+                  data-delay={String(index * 0.1)}
+                  className="scale-in relative overflow-hidden rounded-[2rem] border border-[#d7c4a5] bg-[#f8f3ea] p-8 text-left shadow-[0_28px_60px_rgba(13,31,14,0.08)] transition hover:-translate-y-2 hover:shadow-[0_34px_70px_rgba(13,31,14,0.12)] md:p-10"
+                >
+                  <span className="absolute left-0 top-0 h-1 w-full bg-[linear-gradient(90deg,#b89462,transparent)]" />
+                  <div className="flex items-start justify-between gap-5">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full border border-[#d7c4a5] bg-white text-2xl shadow-sm">
+                      {reason.icon}
+                    </div>
+                    <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#b89462]">0{index + 1}</div>
+                  </div>
+                  <h3 className="mt-8 font-heading text-3xl leading-tight text-forest md:text-[2rem]">{reason.title}</h3>
+                  <p className="mt-5 text-base leading-8 text-mutedgreen">{reason.copy}</p>
+                  <div className="mt-8 flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#b89462]">
+                    <span className="h-px w-8 bg-[#b89462]/70" />
+                    Viviendas Podesta
+                  </div>
                 </article>
               ))}
             </div>
