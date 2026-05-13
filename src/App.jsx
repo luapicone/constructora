@@ -142,7 +142,7 @@ function PublicSite({ content }) {
 
   return (
     <div className="bg-cream text-forest">
-      <header className="fixed inset-x-0 top-0 z-50 pt-5 md:pt-7">
+      <header className="absolute inset-x-0 top-0 z-50 pt-5 md:pt-7">
         <div className="mx-auto flex max-w-[1320px] items-center justify-between rounded-full border border-[#b89a67]/75 bg-[#081521]/88 px-5 py-3 shadow-[0_18px_45px_rgba(0,0,0,0.18)] backdrop-blur-xl md:px-8">
           <div className="flex items-center gap-4 md:gap-5">
             <a href="#top" className="flex items-center gap-3 text-white">
@@ -197,7 +197,7 @@ function PublicSite({ content }) {
             ))}
           </div>
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.72)_0%,rgba(0,0,0,0.42)_42%,rgba(0,0,0,0.08)_74%,rgba(0,0,0,0.02)_100%)]" />
-          <div className="relative z-10 mx-auto flex h-full max-w-[1400px] items-center px-6 md:px-12 lg:px-20 xl:px-24">
+          <div className="relative z-10 mx-auto flex h-full max-w-[1400px] items-center px-6 pt-24 md:px-12 md:pt-28 lg:px-20 xl:px-24">
             <div className="max-w-5xl pt-16">
               <div className="hero-reveal mb-8 flex items-center gap-4" style={{ animationDelay: '0.2s' }}>
                 <span className="h-px w-10 bg-[#c29b61]/70" />
