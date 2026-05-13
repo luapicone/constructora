@@ -3,7 +3,6 @@ import { cloneDefaultContent, normalizeContent } from './content'
 import { isSupabaseConfigured, supabase, SUPABASE_BUCKET } from './supabase'
 
 const heroVideo = 'https://cdn.pixabay.com/video/2025/01/22/254016_large.mp4'
-const heroBackground = 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=80'
 const CONTENT_KEYS = ['settings', 'stats', 'portfolio', 'reasons']
 
 function useReveal() {
@@ -107,8 +106,10 @@ function PublicSite({ content }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [statsVisible, setStatsVisible] = useState(false)
+  const [heroIndex, setHeroIndex] = useState(0)
   const statsRef = useRef(null)
   const { settings, stats, portfolio, reasons } = content
+  const heroImages = settings.heroImages?.length ? settings.heroImages : [content.settings.aboutPrimaryImage]
 
   const navLinks = [
     { label: 'Nosotros', href: '#about' },
@@ -138,6 +139,14 @@ function PublicSite({ content }) {
     if (statsRef.current) observer.observe(statsRef.current)
     return () => observer.disconnect()
   }, [])
+
+  useEffect(() => {
+    if (heroImages.length <= 1) return undefined
+    const interval = window.setInterval(() => {
+      setHeroIndex((current) => (current + 1) % heroImages.length)
+    }, 5000)
+    return () => window.clearInterval(interval)
+  }, [heroImages.length])
 
   return (
     <div className="bg-cream text-forest">
@@ -170,7 +179,16 @@ function PublicSite({ content }) {
 
       <main id="top">
         <section className="relative h-screen overflow-hidden">
-          <img src={heroBackground} alt="Paisaje natural" className="absolute inset-0 h-full w-full object-cover object-[68%_center]" />
+          <div className="absolute inset-0">
+            {heroImages.map((image, index) => (
+              <img
+                key={`${image}-${index}`}
+                src={image}
+                alt={`Hero ${index + 1}`}
+                className={`absolute inset-0 h-full w-full object-cover object-[68%_center] transition-opacity duration-[1600ms] ${index === heroIndex ? 'opacity-100' : 'opacity-0'}`}
+              />
+            ))}
+          </div>
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.72)_0%,rgba(0,0,0,0.42)_42%,rgba(0,0,0,0.08)_74%,rgba(0,0,0,0.02)_100%)]" />
           <div className="relative z-10 mx-auto flex h-full max-w-[1400px] items-center px-6 md:px-12 lg:px-20 xl:px-24">
             <div className="max-w-5xl pt-16">
@@ -218,6 +236,19 @@ function PublicSite({ content }) {
               </div>
             </div>
           </div>
+          {heroImages.length > 1 ? (
+            <div className="absolute bottom-8 right-6 z-10 flex gap-2 md:right-10">
+              {heroImages.map((image, index) => (
+                <button
+                  key={`${image}-dot-${index}`}
+                  type="button"
+                  aria-label={`Ir a imagen ${index + 1}`}
+                  onClick={() => setHeroIndex(index)}
+                  className={`h-2.5 w-2.5 rounded-full transition ${index === heroIndex ? 'bg-[#c29b61]' : 'bg-white/45 hover:bg-white/70'}`}
+                />
+              ))}
+            </div>
+          ) : null}
           <div className="scroll-indicator absolute bottom-7 left-1/2 z-10 h-10 w-px -translate-x-1/2 bg-[linear-gradient(to_bottom,#c4a470,transparent)]" />
         </section>
 
@@ -468,24 +499,35 @@ function AdminPage({ content, setContent, refresh }) {
 
   const handleUpload = async (field, pathPrefix, file, listKey, index) => {
     if (!file) return
-    const uploadKey = typeof index === 'number' ? `${listKey}-${index}-${field}` : field
+    const uploadKey = typeof index === 'number' ? `${listKey}-${index}-${field}` : field.includes('.') ? field.replace('.', '-') : field
     try {
       setUploadingField(uploadKey)
       setStatus('Subiendo imagen...')
       const url = await uploadImage(file, pathPrefix)
       let nextContent
       setContent((current) => {
-        nextContent = typeof index === 'number'
-          ? {
-              ...current,
-              [listKey]: current[listKey].map((item, itemIndex) =>
-                itemIndex === index ? { ...item, [field]: url } : item,
-              ),
-            }
-          : {
-              ...current,
-              settings: { ...current.settings, [field]: url },
-            }
+        if (!listKey && field.startsWith('heroImages.')) {
+          const imageIndex = Number(field.split('.')[1])
+          nextContent = {
+            ...current,
+            settings: {
+              ...current.settings,
+              heroImages: (current.settings.heroImages || []).map((item, idx) => (idx === imageIndex ? url : item)),
+            },
+          }
+        } else {
+          nextContent = typeof index === 'number'
+            ? {
+                ...current,
+                [listKey]: current[listKey].map((item, itemIndex) =>
+                  itemIndex === index ? { ...item, [field]: url } : item,
+                ),
+              }
+            : {
+                ...current,
+                settings: { ...current.settings, [field]: url },
+              }
+        }
         return nextContent
       })
       await persistContent(nextContent, 'Imagen subida y guardada.')
@@ -581,6 +623,52 @@ function AdminPage({ content, setContent, refresh }) {
             <AdminImageField label="Imagen fondo CTA" value={content.settings.ctaBackgroundImage} onChange={(value) => updateSettings('ctaBackgroundImage', value)} uploading={uploadingField === 'ctaBackgroundImage'} onUpload={(event) => handleUpload('ctaBackgroundImage', 'cta', event.target.files?.[0])} />
           </div>
         </section>
+
+        <AdminListSection
+          title="Imágenes del hero"
+          onAdd={() => setContent((current) => ({
+            ...current,
+            settings: {
+              ...current.settings,
+              heroImages: [...(current.settings.heroImages || []), ''],
+            },
+          }))}
+        >
+          <div className="grid gap-4 lg:grid-cols-2">
+            {(content.settings.heroImages || []).map((image, index) => (
+              <div key={`hero-image-${index}`} className="space-y-3 rounded-2xl border border-forest/10 p-4">
+                <div className="flex justify-between gap-3">
+                  <span className="text-sm font-semibold text-forest">Imagen {index + 1}</span>
+                  <button
+                    className="text-sm font-semibold text-red-600"
+                    onClick={() => setContent((current) => ({
+                      ...current,
+                      settings: {
+                        ...current.settings,
+                        heroImages: (current.settings.heroImages || []).filter((_, imageIndex) => imageIndex !== index),
+                      },
+                    }))}
+                  >
+                    Eliminar
+                  </button>
+                </div>
+                <AdminImageField
+                  label="Imagen"
+                  value={image}
+                  onChange={(value) => setContent((current) => ({
+                    ...current,
+                    settings: {
+                      ...current.settings,
+                      heroImages: (current.settings.heroImages || []).map((item, imageIndex) => imageIndex === index ? value : item),
+                    },
+                  }))}
+                  uploading={uploadingField === `heroImages-${index}`}
+                  onUpload={(event) => handleUpload(`heroImages.${index}`, `hero/${index + 1}`, event.target.files?.[0])}
+                />
+              </div>
+            ))}
+          </div>
+        </AdminListSection>
 
         <AdminListSection
           title="Estadísticas"

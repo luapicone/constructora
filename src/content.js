@@ -8,6 +8,9 @@ export const defaultContent = {
       'Construimos casas con atención personalizada, impecable cumplimiento de obra y soluciones adaptadas a modelos urbanos, rurales, cabañas, lofts o diseños aportados por cada cliente.',
     heroBadgePrimary: 'Entre Ríos + 400 km',
     heroBadgeSecondary: 'Modelos a medida',
+    heroImages: [
+      'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=80',
+    ],
     aboutEyebrow: 'Trayectoria y confianza',
     aboutTitle: 'Experiencia real para construir la casa que imaginás',
     aboutBody:

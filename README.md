@@ -24,6 +24,7 @@ La web ahora puede editarse sin tocar código.
 ### Qué permite
 - cambiar textos principales
 - reemplazar imágenes existentes
+- administrar el carrusel automático del hero
 - agregar, quitar y editar proyectos
 - agregar, quitar y editar estadísticas
 - agregar, quitar y editar diferenciales
