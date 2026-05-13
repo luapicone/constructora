@@ -147,7 +147,7 @@ function PublicSite({ content }) {
           <div className="flex items-center gap-4 md:gap-5">
             <a href="#top" className="flex items-center gap-3 text-white">
               <span className="text-lg text-white">❦</span>
-              <span className="font-heading text-xl md:text-2xl">{settings.brandName}</span>
+              <span className="font-heading text-xl text-white md:text-2xl">{settings.brandName}</span>
             </a>
             <span className="hidden h-10 w-px bg-[#b89a67]/55 md:block" />
           </div>
