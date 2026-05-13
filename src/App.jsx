@@ -428,17 +428,41 @@ function AdminPage({ content, setContent, refresh }) {
     return data.publicUrl
   }
 
+  const persistContent = async (nextContent, successMessage = 'Cambios guardados.') => {
+    if (!supabase) return false
+    const rows = CONTENT_KEYS.map((key) => ({ key, value: nextContent[key] }))
+    const { error } = await supabase.from('site_content').upsert(rows, { onConflict: 'key' })
+    if (error) {
+      setStatus(error.message)
+      return false
+    }
+    setStatus(successMessage)
+    return true
+  }
+
   const handleUpload = async (field, pathPrefix, file, listKey, index) => {
     if (!file) return
+    const uploadKey = typeof index === 'number' ? `${listKey}-${index}-${field}` : field
     try {
-      setUploadingField(field)
-      setStatus('')
+      setUploadingField(uploadKey)
+      setStatus('Subiendo imagen...')
       const url = await uploadImage(file, pathPrefix)
-      if (typeof index === 'number') {
-        updateListItem(listKey, index, { [field]: url })
-      } else {
-        updateSettings(field, url)
-      }
+      let nextContent
+      setContent((current) => {
+        nextContent = typeof index === 'number'
+          ? {
+              ...current,
+              [listKey]: current[listKey].map((item, itemIndex) =>
+                itemIndex === index ? { ...item, [field]: url } : item,
+              ),
+            }
+          : {
+              ...current,
+              settings: { ...current.settings, [field]: url },
+            }
+        return nextContent
+      })
+      await persistContent(nextContent, 'Imagen subida y guardada.')
     } catch (error) {
       setStatus(error.message)
     } finally {
@@ -460,15 +484,8 @@ function AdminPage({ content, setContent, refresh }) {
   const save = async () => {
     if (!supabase) return
     setSaving(true)
-    setStatus('')
-    const rows = CONTENT_KEYS.map((key) => ({ key, value: content[key] }))
-    const { error } = await supabase.from('site_content').upsert(rows, { onConflict: 'key' })
-    if (error) {
-      setStatus(error.message)
-      setSaving(false)
-      return
-    }
-    setStatus('Cambios guardados.')
+    setStatus('Guardando cambios...')
+    await persistContent(content)
     setSaving(false)
     refresh()
   }
@@ -573,7 +590,7 @@ function AdminPage({ content, setContent, refresh }) {
                   <input type="checkbox" checked={Boolean(item.featured)} onChange={(event) => updateListItem('portfolio', index, { featured: event.target.checked })} />
                   Destacado (ocupa doble alto)
                 </label>
-                <AdminImageField label="Imagen" value={item.image} onChange={(value) => updateListItem('portfolio', index, { image: value })} uploading={uploadingField === `portfolio-${index}`} onUpload={(event) => handleUpload('image', `portfolio/${index + 1}`, event.target.files?.[0], 'portfolio', index)} />
+                <AdminImageField label="Imagen" value={item.image} onChange={(value) => updateListItem('portfolio', index, { image: value })} uploading={uploadingField === `portfolio-${index}-image`} onUpload={(event) => handleUpload('image', `portfolio/${index + 1}`, event.target.files?.[0], 'portfolio', index)} />
               </div>
             ))}
           </div>
