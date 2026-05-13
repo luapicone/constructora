@@ -394,20 +394,8 @@ function PublicSite({ content }) {
                 <span className="h-px w-14 bg-gold/40" />
               </div>
               <h2 className="mt-8 font-heading text-4xl leading-[1.1] text-white md:text-[3.6rem] md:leading-[1.1]">
-                {(() => {
-                  const title = settings.reasonsTitle
-                  const brand = settings.brandName
-                  const idx = title.indexOf(brand)
-                  if (idx === -1) return title
-                  return (
-                    <>
-                      {title.slice(0, idx)}
-                      <span className="italic text-gold">{brand}</span>
-                      <br />
-                      {title.slice(idx + brand.length).trim()}
-                    </>
-                  )
-                })()}
+                Por qué elegir <span className="italic text-gold">Viviendas Podesta</span><br />
+                para construir tu próxima casa
               </h2>
               <div className="mt-8 flex items-center justify-center gap-3">
                 <span className="h-px w-10 bg-gold/40" />
