@@ -6,7 +6,6 @@ const navLinks = [
   { label: 'Nosotros', href: '#about' },
   { label: 'Servicios', href: '#services' },
   { label: 'Proyectos', href: '#portfolio' },
-  { label: 'Eventos', href: '#events' },
   { label: 'Blog', href: '#blog' },
 ]
 
@@ -341,23 +340,6 @@ export default function App() {
                   </div>
                 </article>
               ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="events" className="bg-white py-22 md:py-28">
-          <div className="mx-auto max-w-7xl px-5 md:px-8">
-            <div data-reveal className="fade-up overflow-hidden rounded-[1.1rem] shadow-[0_30px_60px_rgba(13,31,14,0.08)]">
-              <div className="grid md:grid-cols-2">
-                <img src="https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=1000&q=80" alt="Evento de arquitectura" className="h-full min-h-[320px] w-full object-cover" />
-                <div className="bg-forest p-8 text-white md:p-12">
-                  <div className="text-sm font-semibold uppercase tracking-[0.3em] text-accent">// Área de trabajo</div>
-                  <div className="mt-5 inline-flex rounded-full border border-accent/25 bg-accent/10 px-4 py-2 text-sm font-semibold text-accent">Entre Ríos + provincias vecinas</div>
-                  <h3 className="mt-6 max-w-xl font-heading text-4xl leading-tight md:text-5xl">Construimos en un radio de hasta 400 km con el mismo estándar de calidad</h3>
-                  <p className="mt-5 max-w-lg text-lg leading-8 text-white/68">Operamos en Entre Ríos y zonas cercanas, llevando experiencia, organización de obra y atención personalizada a cada proyecto residencial.</p>
-                  <a href="#cta" className="mt-8 inline-flex rounded-full bg-midgreen px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-accent hover:text-forest">Consultar cobertura →</a>
-                </div>
-              </div>
             </div>
           </div>
         </section>

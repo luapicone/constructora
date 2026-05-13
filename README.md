@@ -20,6 +20,6 @@ npm run build
 - Hero full-screen con video de fondo
 - Navbar fija con transición al hacer scroll
 - Barra de estadísticas con contador
-- Secciones orientadas a constructora: Nosotros, Servicios, Proyectos, Evento, Blog, diferenciales y CTA
+- Secciones orientadas a constructora: Nosotros, Servicios, Proyectos, Blog, diferenciales y CTA
 - Animaciones con IntersectionObserver
 - Responsive con menú hamburguesa
