@@ -150,28 +150,43 @@ function PublicSite({ content }) {
 
   return (
     <div className="bg-cream text-forest">
-      <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${scrolled ? 'nav-glass py-3' : 'bg-transparent py-5 backdrop-blur-md'}`}>
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 md:px-8">
-          <a href="#top" className="font-heading text-2xl text-white md:text-3xl">{settings.brandName}</a>
-          <nav className="hidden items-center gap-8 text-sm font-medium text-white/85 md:flex">
-            {navLinks.map((link) => (
-              <a key={link.label} href={link.href} className="transition hover:text-accent">{link.label}</a>
+      <header className="fixed inset-x-0 top-0 z-50 pt-5 md:pt-7">
+        <div className={`mx-auto flex max-w-[1320px] items-center justify-between rounded-full border border-[#b89a67]/75 px-5 py-3 shadow-[0_18px_45px_rgba(0,0,0,0.18)] backdrop-blur-xl transition-all duration-500 md:px-8 ${scrolled ? 'bg-[#081521]/92' : 'bg-[#081521]/78'}`}>
+          <div className="flex items-center gap-4 md:gap-5">
+            <a href="#top" className="flex items-center gap-3 text-white">
+              <span className="text-lg text-[#c5a059]">❦</span>
+              <span className="font-heading text-xl md:text-2xl">{settings.brandName}</span>
+            </a>
+            <span className="hidden h-10 w-px bg-[#b89a67]/55 md:block" />
+          </div>
+
+          <nav className="hidden items-center gap-8 text-sm font-medium text-white/88 md:flex lg:gap-10">
+            {navLinks.map((link, index) => (
+              <a key={link.label} href={link.href} className="relative pb-1 transition hover:text-white">
+                {link.label}
+                {index === 0 ? <span className="absolute inset-x-0 -bottom-1 mx-auto h-px w-10 bg-[#b89a67]" /> : null}
+              </a>
             ))}
           </nav>
+
           <div className="hidden md:block">
-            <a href="#cta" className="rounded-full bg-midgreen px-5 py-3 text-sm font-semibold text-white transition hover:bg-accent hover:text-forest">{settings.navCtaLabel}</a>
+            <a href="#cta" className="inline-flex items-center gap-3 rounded-full border border-[#b89a67]/80 bg-[#2b3822] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#35452a]">
+              <span>{settings.navCtaLabel}</span>
+              <span className="text-[#c5a059]">→</span>
+            </a>
           </div>
-          <button className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 text-white md:hidden" onClick={() => setMenuOpen((v) => !v)} aria-label="Toggle menu">
+
+          <button className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#b89a67]/45 text-white md:hidden" onClick={() => setMenuOpen((v) => !v)} aria-label="Toggle menu">
             <span className="text-xl">☰</span>
           </button>
         </div>
         {menuOpen && (
-          <div className="mx-4 mt-4 rounded-3xl border border-white/10 bg-forest/95 p-5 text-white shadow-2xl md:hidden">
+          <div className="mx-4 mt-4 rounded-[2rem] border border-[#b89a67]/55 bg-[#081521]/95 p-5 text-white shadow-2xl backdrop-blur-xl md:hidden">
             <div className="flex flex-col gap-4 text-sm">
               {navLinks.map((link) => (
                 <a key={link.label} href={link.href} onClick={() => setMenuOpen(false)}>{link.label}</a>
               ))}
-              <a href="#cta" onClick={() => setMenuOpen(false)} className="mt-2 rounded-full bg-accent px-5 py-3 text-center font-semibold text-forest">{settings.navCtaLabel}</a>
+              <a href="#cta" onClick={() => setMenuOpen(false)} className="mt-2 rounded-full border border-[#b89a67]/80 bg-[#2b3822] px-5 py-3 text-center font-semibold text-white">{settings.navCtaLabel}</a>
             </div>
           </div>
         )}
