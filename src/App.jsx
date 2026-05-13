@@ -3,6 +3,7 @@ import { cloneDefaultContent, normalizeContent } from './content'
 import { isSupabaseConfigured, supabase, SUPABASE_BUCKET } from './supabase'
 
 const heroVideo = 'https://cdn.pixabay.com/video/2025/01/22/254016_large.mp4'
+const heroBackground = 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=80'
 const CONTENT_KEYS = ['settings', 'stats', 'portfolio', 'reasons']
 
 function useReveal() {
@@ -169,30 +170,41 @@ function PublicSite({ content }) {
 
       <main id="top">
         <section className="relative h-screen overflow-hidden">
-          <video autoPlay muted loop playsInline className="absolute inset-0 h-full w-full object-cover">
-            <source src={heroVideo} type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(13,31,14,0.95)_0%,rgba(13,31,14,0.35)_60%,transparent_100%)]" />
-          <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-5 pb-16 pt-28 md:px-8 md:pb-24 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-3xl pb-10 lg:pb-0">
-              <div className="hero-reveal mb-5 text-sm font-semibold uppercase tracking-[0.34em] text-accent" style={{ animationDelay: '0.2s' }}>
-                // {settings.heroEyebrow}
+          <img src={heroBackground} alt="Paisaje natural" className="absolute inset-0 h-full w-full object-cover" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.78)_0%,rgba(0,0,0,0.48)_38%,rgba(0,0,0,0.12)_72%,rgba(0,0,0,0.02)_100%)]" />
+          <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-5 md:px-8 lg:px-12">
+            <div className="max-w-4xl pt-20">
+              <div className="hero-reveal mb-6 flex items-center gap-4" style={{ animationDelay: '0.2s' }}>
+                <span className="h-px w-12 bg-[#c4a470]/60" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.34em] text-[#c9ad7f]">
+                  {settings.heroEyebrow}
+                </span>
               </div>
-              <h1 className="hero-reveal max-w-4xl font-heading text-[clamp(5rem,10vw,9rem)] leading-[0.88] font-black text-white" style={{ animationDelay: '0.4s' }}>
-                {settings.heroTitle}
+
+              <h1 className="hero-reveal font-heading text-[clamp(4.6rem,9vw,8.5rem)] leading-[0.88] font-black tracking-tight text-white" style={{ animationDelay: '0.4s' }}>
+                Viviendas<br />Podesta
               </h1>
-            </div>
-            <div className="max-w-xl lg:pb-6">
-              <p className="hero-reveal text-lg leading-8 text-white/75 md:text-xl" style={{ animationDelay: '0.6s' }}>
-                {settings.heroDescription}
-              </p>
+
+              <div className="hero-reveal mt-8 max-w-md" style={{ animationDelay: '0.6s' }}>
+                <span className="mb-5 block h-px w-12 bg-[#c4a470]/60" />
+                <p className="text-sm leading-7 text-[#e8e1d6]/82 md:text-base">
+                  {settings.heroDescription}
+                </p>
+              </div>
+
               <div className="hero-reveal mt-8 flex flex-wrap gap-4" style={{ animationDelay: '0.8s' }}>
-                <div className="rounded-full bg-gold px-5 py-3 text-sm font-bold text-forest shadow-lg shadow-gold/20">{settings.heroBadgePrimary}</div>
-                <div className="rounded-full border border-white/15 bg-white/10 px-5 py-3 text-sm font-semibold text-white backdrop-blur-md">{settings.heroBadgeSecondary}</div>
+                <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-b from-[#d4b789] to-[#a38a5f] px-6 py-3 text-sm font-bold text-black/80 shadow-lg shadow-black/10">
+                  <span className="text-base">⌖</span>
+                  {settings.heroBadgePrimary}
+                </div>
+                <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/8 px-6 py-3 text-sm font-semibold text-white backdrop-blur-md">
+                  <span className="text-base">⌂</span>
+                  {settings.heroBadgeSecondary}
+                </div>
               </div>
             </div>
           </div>
-          <div className="scroll-indicator absolute bottom-7 left-1/2 z-10 h-10 w-px -translate-x-1/2 bg-[linear-gradient(to_bottom,#7dc47f,transparent)]" />
+          <div className="scroll-indicator absolute bottom-7 left-1/2 z-10 h-10 w-px -translate-x-1/2 bg-[linear-gradient(to_bottom,#c4a470,transparent)]" />
         </section>
 
         <section ref={statsRef} className="bg-forest">
