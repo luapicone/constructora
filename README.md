@@ -27,6 +27,7 @@ La web ahora puede editarse sin tocar código.
 - administrar el carrusel automático del hero
 - agregar, quitar y editar proyectos
 - crear fichas individuales por casa con galería, descripción y datos técnicos
+- administrar un apartado de modelos de viviendas
 - agregar, quitar y editar estadísticas
 - agregar, quitar y editar diferenciales
 - actualizar datos de contacto

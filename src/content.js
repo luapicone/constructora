@@ -72,6 +72,38 @@ export const defaultContent = {
     { id: makeId(), value: 400, suffix: ' km', label: 'Radio de Cobertura' },
     { id: makeId(), value: 100, suffix: '%', label: 'Cumplimiento de Plazos' },
   ],
+  models: [
+    {
+      id: makeId(),
+      title: 'Viviendas Urbanas',
+      description: 'Casas modernas pensadas para lotes urbanos, con distribución eficiente, diseño contemporáneo y excelente aprovechamiento del espacio.',
+      image: 'https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=1200&q=80',
+    },
+    {
+      id: makeId(),
+      title: 'Viviendas Rurales',
+      description: 'Proyectos robustos y funcionales para entornos abiertos, con foco en durabilidad, confort térmico y conexión con el paisaje.',
+      image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1200&q=80',
+    },
+    {
+      id: makeId(),
+      title: 'Cabañas',
+      description: 'Soluciones cálidas y versátiles para descanso, turismo o vivienda permanente, con identidad propia y construcción eficiente.',
+      image: 'https://images.unsplash.com/photo-1448630360428-65456885c650?w=1200&q=80',
+    },
+    {
+      id: makeId(),
+      title: 'Lofts',
+      description: 'Espacios contemporáneos, abiertos y luminosos para quienes buscan una vivienda moderna con impronta urbana.',
+      image: 'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=1200&q=80',
+    },
+    {
+      id: makeId(),
+      title: 'Diseños a Medida',
+      description: 'Desarrollamos viviendas totalmente personalizadas o construimos sobre planos aportados por el cliente, respetando cada necesidad.',
+      image: 'https://images.unsplash.com/photo-1511818966892-d7d671e672a2?w=1200&q=80',
+    },
+  ],
   portfolio: [
     makeProject({
       title: 'Casa Familiar Podestá',
@@ -184,6 +216,7 @@ export function normalizeContent(raw = {}) {
   return {
     settings: { ...fallback.settings, ...(raw.settings || {}) },
     stats: Array.isArray(raw.stats) && raw.stats.length ? raw.stats : fallback.stats,
+    models: Array.isArray(raw.models) && raw.models.length ? raw.models : fallback.models,
     portfolio: Array.isArray(raw.portfolio) && raw.portfolio.length
       ? raw.portfolio.map((project, index) => normalizeProject(project, fallback.portfolio[Math.min(index, fallback.portfolio.length - 1)] || fallback.portfolio[0]))
       : fallback.portfolio,

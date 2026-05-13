@@ -3,7 +3,7 @@ import { cloneDefaultContent, normalizeContent } from './content'
 import { isSupabaseConfigured, supabase, SUPABASE_BUCKET } from './supabase'
 
 const heroVideo = 'https://cdn.pixabay.com/video/2025/01/22/254016_large.mp4'
-const CONTENT_KEYS = ['settings', 'stats', 'portfolio', 'reasons']
+const CONTENT_KEYS = ['settings', 'stats', 'models', 'portfolio', 'reasons']
 
 const projectSpecLabels = {
   squareMeters: 'Metros cuadrados',
@@ -131,11 +131,12 @@ function PublicSite({ content }) {
   const [heroIndex, setHeroIndex] = useState(0)
   const [selectedHouseSlug, setSelectedHouseSlug] = useState(getHouseSlug())
   const statsRef = useRef(null)
-  const { settings, stats, portfolio, reasons } = content
+  const { settings, stats, models, portfolio, reasons } = content
   const heroImages = settings.heroImages?.length ? settings.heroImages : [content.settings.aboutPrimaryImage]
 
   const navLinks = [
     { label: 'Nosotros', href: '#about' },
+    { label: 'Modelos', href: '#models' },
     { label: 'Proyectos', href: '#portfolio' },
   ]
 
@@ -332,6 +333,40 @@ function PublicSite({ content }) {
               <div className="text-sm font-semibold uppercase tracking-[0.32em] text-midgreen">// {settings.aboutEyebrow}</div>
               <h2 className="mt-5 max-w-xl font-heading text-4xl leading-tight text-forest md:text-6xl">{settings.aboutTitle}</h2>
               <p className="mt-6 max-w-xl text-lg leading-8 text-mutedgreen">{settings.aboutBody}</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="models" className="bg-white py-22 md:py-28">
+          <div className="mx-auto max-w-7xl px-5 md:px-8">
+            <div className="mb-12 flex flex-col gap-4 md:mb-16 md:flex-row md:items-end md:justify-between">
+              <div data-reveal className="fade-up max-w-3xl">
+                <div className="text-sm font-semibold uppercase tracking-[0.32em] text-midgreen">// Modelos de viviendas</div>
+                <h2 className="mt-4 font-heading text-4xl text-forest md:text-6xl">Opciones pensadas para distintos estilos de vida y terrenos</h2>
+              </div>
+              <p data-reveal data-delay="0.1" className="fade-up max-w-xl text-base leading-7 text-mutedgreen md:text-right">
+                Desarrollamos tipologías urbanas, rurales y personalizadas para que cada proyecto responda a tu forma de vivir y a las características del lote.
+              </p>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-5">
+              {models.map((model, index) => (
+                <article
+                  key={model.id || model.title}
+                  data-reveal
+                  data-delay={String(index * 0.08)}
+                  className="scale-in overflow-hidden rounded-[1.75rem] bg-cream shadow-[0_22px_55px_rgba(13,31,14,0.06)]"
+                >
+                  <div className="overflow-hidden">
+                    <img src={model.image} alt={model.title} className="h-64 w-full object-cover transition duration-700 hover:scale-105" />
+                  </div>
+                  <div className="p-6">
+                    <div className="text-xs font-semibold uppercase tracking-[0.24em] text-[#b89462]">Modelo {index + 1}</div>
+                    <h3 className="mt-3 font-heading text-3xl leading-tight text-forest">{model.title}</h3>
+                    <p className="mt-4 text-sm leading-7 text-mutedgreen">{model.description}</p>
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
         </section>
@@ -956,6 +991,31 @@ function AdminPage({ content, setContent, refresh }) {
                 <AdminField label="Prefijo" value={stat.prefix || ''} onChange={(value) => updateListItem('stats', index, { prefix: value })} />
                 <AdminField label="Sufijo" value={stat.suffix || ''} onChange={(value) => updateListItem('stats', index, { suffix: value })} />
                 <AdminField label="Etiqueta" value={stat.label} onChange={(value) => updateListItem('stats', index, { label: value })} />
+              </div>
+            ))}
+          </div>
+        </AdminListSection>
+
+        <AdminListSection
+          title="Modelos de viviendas"
+          onAdd={() => addListItem('models', { title: 'Nuevo modelo', description: 'Descripción del modelo.', image: '' })}
+        >
+          <div className="grid gap-4 lg:grid-cols-3">
+            {content.models.map((model, index) => (
+              <div key={model.id} className="space-y-3 rounded-2xl border border-forest/10 p-4">
+                <div className="flex justify-between gap-3">
+                  <span className="text-sm font-semibold text-forest">Modelo {index + 1}</span>
+                  <button className="text-sm font-semibold text-red-600" onClick={() => removeListItem('models', index)}>Eliminar</button>
+                </div>
+                <AdminField label="Título" value={model.title} onChange={(value) => updateListItem('models', index, { title: value })} />
+                <AdminField label="Descripción" value={model.description || ''} onChange={(value) => updateListItem('models', index, { description: value })} type="textarea" rows={4} />
+                <AdminImageField
+                  label="Imagen"
+                  value={model.image}
+                  onChange={(value) => updateListItem('models', index, { image: value })}
+                  uploading={uploadingField === `models-${index}-image`}
+                  onUpload={(event) => handleUpload('image', `models/${index + 1}`, event.target.files?.[0], 'models', index)}
+                />
               </div>
             ))}
           </div>
