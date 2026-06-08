@@ -34,8 +34,6 @@ La web ahora puede editarse sin tocar código.
 
 Los datos iniciales del sitio, incluyendo email, teléfono y dirección de contacto, viven en `src/content.js` y luego pueden sobrescribirse desde el panel admin.
 
-Además, `src/content.js` normaliza automáticamente la dirección histórica `J. J. Bruno 2790, E3260 Concepción del Uruguay, Entre Ríos` a `Villa Las Lomas Norte` si ese valor siguiera persistido en Supabase desde una versión anterior.
-
 ### Cómo entrar
 - sitio público: `/`
 - panel admin: `/?admin=1`

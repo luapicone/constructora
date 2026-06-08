@@ -1,6 +1,4 @@
 const makeId = () => crypto.randomUUID()
-const LEGACY_CONTACT_ADDRESS = 'J. J. Bruno 2790, E3260 Concepción del Uruguay, Entre Ríos'
-const CURRENT_CONTACT_ADDRESS = 'Villa Las Lomas Norte'
 
 const makeProject = ({
   title,
@@ -66,7 +64,7 @@ export const defaultContent = {
       'Constructora de viviendas con trayectoria, atención personalizada y proyectos ejecutados con seguridad, estética, confort y excelente relación precio-calidad.',
     contactEmail: 'hola@viviendaspodesta.com',
     contactPhone: '+54 11 5555 0186',
-    contactAddress: CURRENT_CONTACT_ADDRESS,
+    contactAddress: 'Villa Las Lomas Norte',
   },
   stats: [
     { id: makeId(), value: 40, suffix: '+', label: 'Años de Trayectoria' },
@@ -216,10 +214,6 @@ function normalizeProject(project, fallbackProject) {
 export function normalizeContent(raw = {}) {
   const fallback = cloneDefaultContent()
   const normalizedSettings = { ...fallback.settings, ...(raw.settings || {}) }
-
-  if (normalizedSettings.contactAddress === LEGACY_CONTACT_ADDRESS) {
-    normalizedSettings.contactAddress = CURRENT_CONTACT_ADDRESS
-  }
 
   return {
     settings: normalizedSettings,
