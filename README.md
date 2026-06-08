@@ -32,6 +32,8 @@ La web ahora puede editarse sin tocar código.
 - agregar, quitar y editar diferenciales
 - actualizar datos de contacto
 
+Los datos iniciales del sitio, incluyendo email, teléfono y dirección de contacto, viven en `src/content.js` y luego pueden sobrescribirse desde el panel admin.
+
 ### Cómo entrar
 - sitio público: `/`
 - panel admin: `/?admin=1`

@@ -64,7 +64,7 @@ export const defaultContent = {
       'Constructora de viviendas con trayectoria, atención personalizada y proyectos ejecutados con seguridad, estética, confort y excelente relación precio-calidad.',
     contactEmail: 'hola@viviendaspodesta.com',
     contactPhone: '+54 11 5555 0186',
-    contactAddress: 'Av. del Libertador 2040, Buenos Aires',
+    contactAddress: 'Villa Las Lomas Norte',
   },
   stats: [
     { id: makeId(), value: 40, suffix: '+', label: 'Años de Trayectoria' },
