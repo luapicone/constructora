@@ -4,6 +4,7 @@ import { isSupabaseConfigured, supabase, SUPABASE_BUCKET } from './supabase'
 
 const heroVideo = 'https://cdn.pixabay.com/video/2025/01/22/254016_large.mp4'
 const CONTENT_KEYS = ['settings', 'stats', 'models', 'portfolio', 'reasons']
+const WHATSAPP_CTA_URL = 'https://wa.me/541167288712'
 
 const projectSpecLabels = {
   squareMeters: 'Metros cuadrados',
@@ -219,7 +220,12 @@ function PublicSite({ content }) {
           </nav>
 
           <div className="hidden md:block">
-            <a href="#cta" className="inline-flex items-center gap-3 rounded-full border border-[#b89a67]/80 bg-[#2b3822] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#35452a]">
+            <a
+              href={WHATSAPP_CTA_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-3 rounded-full border border-[#b89a67]/80 bg-[#2b3822] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#35452a]"
+            >
               <span>{settings.navCtaLabel}</span>
               <span className="text-[#c5a059]">→</span>
             </a>
@@ -235,7 +241,15 @@ function PublicSite({ content }) {
               {navLinks.map((link) => (
                 <a key={link.label} href={link.href} onClick={() => setMenuOpen(false)}>{link.label}</a>
               ))}
-              <a href="#cta" onClick={() => setMenuOpen(false)} className="mt-2 rounded-full border border-[#b89a67]/80 bg-[#2b3822] px-5 py-3 text-center font-semibold text-white">{settings.navCtaLabel}</a>
+              <a
+                href={WHATSAPP_CTA_URL}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => setMenuOpen(false)}
+                className="mt-2 rounded-full border border-[#b89a67]/80 bg-[#2b3822] px-5 py-3 text-center font-semibold text-white"
+              >
+                {settings.navCtaLabel}
+              </a>
             </div>
           </div>
         )}
@@ -500,7 +514,14 @@ function PublicSite({ content }) {
               </h2>
               <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/72">{settings.ctaDescription}</p>
               <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
-                <a href="#top" className="rounded-full bg-accent px-7 py-4 text-sm font-semibold text-forest transition hover:bg-white">{settings.navCtaLabel}</a>
+                <a
+                  href={WHATSAPP_CTA_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-full bg-accent px-7 py-4 text-sm font-semibold text-forest transition hover:bg-white"
+                >
+                  {settings.navCtaLabel}
+                </a>
                 <a href="#about" className="rounded-full border border-white/35 px-7 py-4 text-sm font-semibold text-white transition hover:border-accent hover:text-accent">Ver trayectoria</a>
               </div>
             </div>
